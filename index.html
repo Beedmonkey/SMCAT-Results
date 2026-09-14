@@ -3,122 +3,780 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMC-CEE 2026 Admissions Portal</title>
+    <title>SMC-CEE 2026 Admissions | Official Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: #0b0f19; color: #e2e8f0; margin: 0; padding: 20px; }
-        .domain-badge { text-align: center; margin-bottom: 20px; }
-        .domain-badge span { background: #111827; border: 1px solid #1f2937; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; color: #60a5fa; }
-        
-        .nav-tabs { display: flex; gap: 20px; border-bottom: 1px solid #1f2937; max-width: 1000px; margin: 0 auto 20px auto; }
-        .tab { padding: 10px 5px; color: #9ca3af; text-decoration: none; border-bottom: 2px solid transparent; font-weight: 600; font-size: 0.95rem; }
-        .tab.active { color: #facc15; border-bottom-color: #facc15; }
+        :root {
+            --bg-main: #0c0f17;
+            --bg-card: #141a26;
+            --bg-card-secondary: #1a2333;
+            --border-color: #2a364f;
+            --accent-gold: #d4af37;
+            --accent-gold-hover: #f1c40f;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --navy-button: #1e293b;
+            --badge-bg: #fffbe6;
+            --badge-border: #ffe58f;
+            --badge-text: #d46b08;
+            --dark-banner: #0b1329;
+            --success-color: #22c55e;
+            --fail-color: #ef4444;
+        }
 
-        .container { display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; max-width: 1000px; margin: 0 auto; }
-        @media (max-width: 768px) { .container { grid-template-columns: 1fr; } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
 
-        .card { background: #111827; border: 1px solid #1f2937; border-radius: 10px; padding: 25px; }
-        h2 { font-size: 1.25rem; margin-top: 0; color: #ffffff; }
-        p.subtitle { color: #9ca3af; font-size: 0.85rem; line-height: 1.4; }
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: radial-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
 
-        label { display: block; font-size: 0.75rem; font-weight: 700; color: #9ca3af; margin-top: 20px; margin-bottom: 8px; letter-spacing: 0.5px; }
-        input[type="text"] { width: 100%; background: #0b0f19; border: 1px solid #374151; color: #ffffff; padding: 12px; border-radius: 6px; font-size: 0.95rem; outline: none; }
-        input[type="text"]:focus { border-color: #3b82f6; }
+        /* Top Bar */
+        .top-bar {
+            background-color: #06080d;
+            border-bottom: 1px solid var(--border-color);
+            padding: 8px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
 
-        .btn-verify { width: 100%; background: #1d283a; color: #ffffff; border: 1px solid #374151; padding: 12px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; margin-top: 15px; cursor: pointer; transition: 0.2s; }
-        .btn-verify:hover { background: #2563eb; border-color: #2563eb; }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(34, 197, 94, 0.1);
+            color: #4ade80;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
 
-        .notice-box { background: #0b0f19; border-left: 3px solid #3b82f6; padding: 12px; border-radius: 4px; margin-top: 25px; font-size: 0.8rem; color: #9ca3af; }
+        .dot {
+            width: 6px;
+            height: 6px;
+            background-color: #22c55e;
+            border-radius: 50%;
+        }
 
-        /* Display Panel */
-        .display-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 300px; }
-        .badge-icon { font-size: 2.5rem; margin-bottom: 10px; }
-        .result-status { font-size: 1.5rem; font-weight: 800; margin: 10px 0; }
-        .status-passed { color: #22c55e; }
-        .status-failed { color: #ef4444; }
+        /* Header Navigation */
+        header {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand-logo {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--accent-gold), #997a15);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            color: #000;
+            font-size: 1.2rem;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .brand-title h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-title p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .btn-admin {
+            background-color: var(--accent-gold);
+            color: #000;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: 0.2s ease;
+        }
+
+        .btn-admin:hover {
+            background-color: var(--accent-gold-hover);
+        }
+
+        /* Hero Announcement */
+        .hero {
+            text-align: center;
+            padding: 40px 20px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .tag-announcement {
+            display: inline-block;
+            background-color: var(--bg-card-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--accent-gold);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero h2 span {
+            color: var(--accent-gold);
+            -webkit-text-fill-color: var(--accent-gold);
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .official-link-box {
+            margin: 20px auto 0;
+            display: inline-block;
+            background: #080b11;
+            border: 1px solid var(--border-color);
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        /* Container & Tabs */
+        .container {
+            max-width: 1100px;
+            margin: 20px auto 50px;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: 0.2s;
+        }
+
+        .tab-btn.active {
+            color: var(--accent-gold);
+            border-bottom-color: var(--accent-gold);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Grid Layout */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .card-header-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card-header-title h3 {
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .form-group {
+            margin-top: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: #0b0f17;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .btn-verify {
+            width: 100%;
+            margin-top: 18px;
+            background-color: var(--navy-button);
+            color: #fff;
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .btn-verify:hover {
+            background-color: var(--border-color);
+            color: var(--accent-gold);
+        }
+
+        .notice-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 20px;
+            line-height: 1.4;
+            background: rgba(0,0,0,0.2);
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Result Panel */
+        .result-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 320px;
+        }
+
+        .result-empty-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--bg-card-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+        }
+
+        .result-empty h4 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .result-empty p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            max-width: 320px;
+            line-height: 1.4;
+        }
+
+        .result-slip {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .slip-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .slip-title h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .slip-title p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .badge-status {
+            background: #fef08a;
+            color: #854d0e;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+            letter-spacing: 0.5px;
+            border: 1px solid #fde047;
+        }
+
+        .slip-date {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-align: right;
+            margin-top: 4px;
+        }
+
+        .info-grid-box {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .info-item span {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .info-item strong {
+            font-size: 0.95rem;
+            color: var(--accent-gold);
+        }
+
+        .banner-program {
+            background: linear-gradient(135deg, var(--dark-banner), #162447);
+            border: 1px solid #1f325c;
+            border-radius: 8px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner-program span {
+            font-size: 0.7rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .banner-program h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-top: 4px;
+            color: #ffffff;
+        }
+
+        .banner-program p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .watermark-icon {
+            position: absolute;
+            right: -10px;
+            bottom: -10px;
+            font-size: 5rem;
+            opacity: 0.08;
+            pointer-events: none;
+        }
+
+        .rating-section {
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rating-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .rating-eval {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Guidelines Tab */
+        .guidelines-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .guideline-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .guideline-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--bg-card-secondary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+        }
+
+        .guideline-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .timeline-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .timeline-item h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .timeline-item p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .check-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .check-icon {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .support-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .support-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 900px) {
+            .grid-layout, .guidelines-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="domain-badge">
-        <span>🌐 smc-cee2026.nco-academy.ph</span>
+    <!-- Top Status Bar -->
+    <div class="top-bar">
+        <div>
+            OFFICIAL ADMISSIONS PORTAL: <strong>smc-cee2026.nco-academy.ph</strong>
+        </div>
+        <div style="display: flex; gap: 15px; align-items: center;">
+            <span class="status-badge"><span class="dot"></span> SERVER: ONLINE | 22ms</span>
+            <span>NCO Academy Admissions</span>
+        </div>
     </div>
 
-    <div class="nav-tabs">
-        <a href="#" class="tab active">👤 Individual Result Lookup</a>
-        <a href="#" class="tab">📜 Enrollment Guidelines</a>
-    </div>
+    <!-- Main Header -->
+    <header>
+        <div class="brand">
+            <div class="brand-logo">SMC</div>
+            <div class="brand-title">
+                <h1>SMC-CEE Portal</h1>
+                <p>Sergeant Major Course Entrance Examination</p>
+            </div>
+        </div>
+        <a href="#" class="btn-admin">Admin Portal</a>
+    </header>
 
-    <div class="container">
-        <!-- Search Card -->
-        <div class="card">
-            <h2>🪪 Examinee Result Check</h2>
-            <p class="subtitle">Enter your registered Username / Examinee ID to view your official SMC-CEE 2026 grade and admission status.</p>
-            
-            <label>USERNAME *</label>
-            <input type="text" id="usernameInput" placeholder="e.g. MasterKevTzy">
+    <!-- Banner Announcement Section -->
+    <section class="hero">
+        <span class="tag-announcement">SMC-CEE 2026 Admissions Official Announcement</span>
+        <h2>The <span>SMC-CEE</span> results are out!</h2>
+        <p>Pagbati sa mga bagong NCO Cadets ng Bayan!</p>
+        <div>
+            <div class="official-link-box">
+                🌐 smc-cee2026.nco-academy.ph
+            </div>
+        </div>
+    </section>
 
-            <button class="btn-verify" onclick="verifyResult()">🔍 Verify Result by Username</button>
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('lookupTab', this)">👤 Individual Result Lookup</button>
+            <button class="tab-btn" onclick="switchTab('guidelinesTab', this)">📋 Enrollment Guidelines</button>
+        </div>
 
-            <div class="notice-box">
-                <strong>Admissions Notice:</strong><br>
-                If your username is not listed or you encountered an issue, contact the Office of Admissions.
+        <!-- TAB 1: INDIVIDUAL RESULT LOOKUP -->
+        <div id="lookupTab" class="tab-content active">
+            <div class="grid-layout">
+                <!-- Search Card -->
+                <div class="card">
+                    <div class="card-header-title">
+                        <span style="color: var(--accent-gold);">🪪</span>
+                        <h3>Examinee Result Check</h3>
+                    </div>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+                        Enter your registered Username / Examinee ID to view your official SMC-CEE 2026 grade and admission status.
+                    </p>
+
+                    <div class="form-group">
+                        <label>USERNAME *</label>
+                        <input type="text" id="usernameInput" placeholder="e.g. MasterKevTzy">
+                    </div>
+
+                    <button class="btn-verify" onclick="verifyResult()">🔍 Verify Result by Username</button>
+
+                    <div class="notice-text">
+                        <strong>Admissions Notice:</strong><br>
+                        If your username is not listed or you encountered an issue, contact the Office of Admissions via email at <em>admissions@nco-academy.ph</em>.
+                    </div>
+                </div>
+
+                <!-- Result Display Panel -->
+                <div class="card">
+                    <!-- Default Empty State -->
+                    <div id="emptyState" class="result-empty">
+                        <div class="result-empty-icon">🎖️</div>
+                        <h4>No Examinee Selected</h4>
+                        <p>Enter your registered username in the search box or click the official domain link above to check whether your score status is <strong>PASSED</strong> or <strong>FAILED</strong> for Sergeant Major Course.</p>
+                        <div style="margin-top: 15px;">
+                            <span style="font-size: 0.75rem; color: var(--accent-gold); font-weight: 600;">🛡️ Official Admissions Portal</span>
+                        </div>
+                    </div>
+
+                    <!-- Active Result Slip -->
+                    <div id="resultSlip" class="result-slip">
+                        <div class="slip-header">
+                            <div class="slip-title">
+                                <h2>NCO ACADEMY - CADETSHIP ADMISSIONS</h2>
+                                <p>SERGEANT MAJOR COURSE ENTRANCE TEST (SMC-CEE 2026)</p>
+                            </div>
+                            <div>
+                                <span id="statusBadge" class="badge-status">FOUND</span>
+                                <div class="slip-date">Date Issued: <strong>Sep 14, 2026</strong></div>
+                            </div>
+                        </div>
+
+                        <div class="info-grid-box">
+                            <div class="info-item">
+                                <span>APPLICANT NUMBER</span>
+                                <strong id="applicantNo">2026-SMC-8820</strong>
+                            </div>
+                            <div class="info-item">
+                                <span>EXAMINEE USERNAME</span>
+                                <strong id="examineeUser">MasterKevTzy</strong>
+                            </div>
+                        </div>
+
+                        <div class="banner-program">
+                            <span>OFFERED CADETSHIP PROGRAM</span>
+                            <h3>Sergeant Major Course (SMC)</h3>
+                            <p>NCO Academy - Military & Leadership Command Training</p>
+                            <div class="watermark-icon">🎖️</div>
+                        </div>
+
+                        <div class="rating-section">
+                            <div class="rating-title">OFFICIAL SMC-CEE ENTRANCE RATING</div>
+                            <div class="rating-eval">BOARD EVALUATION (PASSING: 80.0)</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Result Display Panel -->
-        <div class="card display-panel" id="resultPanel">
-            <div class="badge-icon">🎖️</div>
-            <h3 style="margin:5px 0;">No Examinee Selected</h3>
-            <p class="subtitle">Enter your registered username in the search box to check whether your score status is <strong>PASSED</strong> or <strong>FAILED</strong>.</p>
-            <p style="font-size:0.8rem; color:#3b82f6; margin-top:15px;">🛡️ Official Admissions Portal</p>
+        <!-- TAB 2: ENROLLMENT GUIDELINES -->
+        <div id="guidelinesTab" class="tab-content">
+            <div class="guidelines-grid">
+                <!-- Academic Schedule -->
+                <div class="guideline-card">
+                    <div class="guideline-icon">📅</div>
+                    <h3>Academic Schedule</h3>
+                    <ul class="timeline-list">
+                        <li class="timeline-item">
+                            <h4>September 14, 2026</h4>
+                            <p>Official Release of SMC-CEE 2026 Examination Results</p>
+                        </li>
+                        <li class="timeline-item">
+                            <h4>September 16 – 20, 2026</h4>
+                            <p>Online Slot Confirmation & Document Submission</p>
+                        </li>
+                        <li class="timeline-item">
+                            <h4>September 25, 2026</h4>
+                            <p>Opening of Academic Year Class Training Sessions.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Enrollment Requirements -->
+                <div class="guideline-card">
+                    <div class="guideline-icon">📂</div>
+                    <h3>Enrollment Requirements</h3>
+                    <ul class="check-list">
+                        <li class="check-item">
+                            <span class="check-icon">✓</span>
+                            <span>Medical Clearance Certificate from Armed Forces Health Unit</span>
+                        </li>
+                        <li class="check-item">
+                            <span class="check-icon">✓</span>
+                            <span>Official Admission Slip (Entrance Exam Result)</span>
+                        </li>
+                        <li class="check-item">
+                            <span class="check-icon">✓</span>
+                            <span>Clearance & Service Record from Command NCO Council</span>
+                        </li>
+                    </ul>
+                    <div style="margin-top: 25px; padding-top: 15px; border-top: 1px dashed var(--border-color);">
+                        <span style="font-size: 0.7rem; color: var(--accent-gold); font-weight: 700; text-transform: uppercase;">OFFERED PROGRAM</span>
+                        <p style="font-size: 0.85rem; font-weight: 700; color: #fff; margin-top: 2px;">Sergeant Major Course (SMC)</p>
+                    </div>
+                </div>
+
+                <!-- Admissions Support -->
+                <div class="guideline-card">
+                    <div class="guideline-icon">🎧</div>
+                    <h3>Admissions Support</h3>
+                    <ul class="support-list">
+                        <li class="support-item">
+                            <span>✉️</span>
+                            <span>admissions@nco-academy.ph</span>
+                        </li>
+                        <li class="support-item">
+                            <span>🏛️</span>
+                            <span>Office of Admissions & Registrar</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
 
     <script>
-        async function verifyResult() {
-            const input = document.getElementById('usernameInput').value.trim().toLowerCase();
-            const panel = document.getElementById('resultPanel');
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
 
-            if (!input) {
-                alert("Please enter a username.");
-                return;
-            }
+        function verifyResult() {
+            const val = document.getElementById('usernameInput').value.trim();
+            const emptyState = document.getElementById('emptyState');
+            const resultSlip = document.getElementById('resultSlip');
 
-            panel.innerHTML = `<p class="subtitle">Checking database...</p>`;
+            if (val !== '') {
+                emptyState.style.display = 'none';
+                resultSlip.style.display = 'flex';
 
-            try {
-                // Kukunin nito ang results.json file na nililikha ng Discord bot
-                const res = await fetch('results.json?nocache=' + new Date().getTime());
-                if (!res.ok) throw new Error("No database found");
-                
-                const data = await res.json();
-                const match = data.find(item => item.username.toLowerCase() === input);
-
-                if (match) {
-                    const isPassed = match.status.toUpperCase() === 'PASSED';
-                    panel.innerHTML = `
-                        <div class="badge-icon">${isPassed ? '🎖️' : '⚠️'}</div>
-                        <h2 style="margin-bottom:0;">${match.username}</h2>
-                        <div class="result-status ${isPassed ? 'status-passed' : 'status-failed'}">
-                            ${isPassed ? 'PASSED' : 'FAILED'}
-                        </div>
-                        <p class="subtitle">Score: <strong>${match.score}</strong> | Date Logged: ${match.date}</p>
-                        <p style="font-size:0.8rem; color:#3b82f6; margin-top:20px;">🛡️ SMC-CEE 2026 Verified Record</p>
-                    `;
-                } else {
-                    panel.innerHTML = `
-                        <div class="badge-icon">❌</div>
-                        <h3 style="color:#ef4444;">Examinee Not Found</h3>
-                        <p class="subtitle">No examination record found for username "<strong>${input}</strong>".</p>
-                    `;
-                }
-            } catch (err) {
-                panel.innerHTML = `
-                    <div class="badge-icon">📂</div>
-                    <h3>No Records Posted Yet</h3>
-                    <p class="subtitle">The result database is currently empty or updating.</p>
-                `;
+                document.getElementById('examineeUser').innerText = val;
+                document.getElementById('applicantNo').innerText = '2026-SMC-' + Math.floor(1000 + Math.random() * 9000);
+            } else {
+                emptyState.style.display = 'flex';
+                resultSlip.style.display = 'none';
             }
         }
     </script>
