@@ -1,88 +1,321 @@
-<!-- JAVASCRIPT LOGIC -->
-    <script>
-        // Authorized Staff Usernames Only
-        const authorizedStaff = [
-            "admin",
-            "staff_lsi",
-            "instructor_smc",
-            "officer_cadet"
-        ];
-
-        // Database ng Examinees
-        const examineeDatabase = [
-            { id: "2026-SMC-5398", username: "shailishmae", score: 92, status: "PASSED", date: "Sep 14, 2026" },
-            { id: "2026-SMC-5399", username: "alex_cadet", score: 85, status: "PASSED", date: "Sep 14, 2026" },
-            { id: "2026-SMC-5400", username: "johndoe", score: 68, status: "FAILED", date: "Sep 14, 2026" }
-        ];
-
-        // Tab Switcher Logic
-        function switchTab(tabId, element) {
-            const contents = document.querySelectorAll('.tab-content');
-            const tabs = document.querySelectorAll('.tab-btn');
-
-            contents.forEach(content => content.classList.remove('active'));
-            tabs.forEach(tab => tab.classList.remove('active'));
-
-            document.getElementById(tabId).classList.add('active');
-            element.classList.add('active');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMCAT Admissions Results Portal</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
-        // Verify Examinee Result Logic
-        function verifyResult() {
-            const inputVal = document.getElementById('usernameInput').value.trim().toLowerCase();
-            const emptyState = document.getElementById('emptyState');
-            const resultSlip = document.getElementById('resultSlip');
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-            if (!inputVal) {
-                alert("Pakilagay ang iyong Username.");
+        header {
+            background: #1e293b;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #eab308;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+
+        header h1 {
+            color: #eab308;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            width: 90%;
+            flex-grow: 1;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        input[type="text"], input[type="password"] {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background: #1e293b;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #eab308;
+        }
+
+        button {
+            padding: 12px 24px;
+            background: #eab308;
+            color: #0f172a;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #ca8a04;
+        }
+
+        .result-card {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+            display: none;
+            border-left: 5px solid #eab308;
+        }
+
+        .status-passed {
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        .status-failed {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        /* MODAL / ADMIN PORTAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid #334155;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 10px;
+        }
+
+        .close-btn {
+            background: transparent;
+            color: #94a3b8;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+
+        th {
+            background: #0f172a;
+            color: #eab308;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #1e293b;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>SMCAT ADMISSIONS RESULTS PORTAL</h1>
+        <p>Official Examination Database Verification System</p>
+    </header>
+
+    <div class="container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Enter Examinee Roblox Username...">
+            <button onclick="searchResult()">Check Result</button>
+            <button onclick="openAdminPortal()" style="background: #3b82f6; color: white;">Admin Portal</button>
+        </div>
+
+        <div id="resultCard" class="result-card">
+            <h2 id="resUsername">Username</h2>
+            <p><strong>Score:</strong> <span id="resScore">0/100</span></p>
+            <p><strong>Status:</strong> <span id="resStatus">PENDING</span></p>
+            <p><strong>Date Processed:</strong> <span id="resDate">-</span></p>
+        </div>
+    </div>
+
+    <!-- ADMIN MODAL -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🛡️ SMCAT Admin Database (<span id="activeStaffDisplay" style="color:#22c55e;">Staff</span>)</h2>
+                <button class="close-btn" onclick="closeAdminPortal()">&times;</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Score</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="adminTableBody">
+                    <!-- Dynamic Data -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 SMCAT Admissions. All rights reserved.
+    </footer>
+
+    <script>
+        // Repositories & Databases Configuration
+        const EXAM_RESULTS_URL = "https://raw.githubusercontent.com/smcat-portal/SMCAT-Results/main/results.json";
+        const STAFF_ACCESS_URL = "https://raw.githubusercontent.com/smcat-portal/SMCAT-Results/main/staff_access.json";
+
+        let databaseData = [];
+
+        // Fetch JSON Exam Data from GitHub
+        async function fetchDatabase() {
+            try {
+                const res = await fetch(EXAM_RESULTS_URL + '?t=' + new Date().getTime());
+                if (res.ok) {
+                    databaseData = await res.json();
+                }
+            } catch (e) {
+                console.error("Error loading JSON:", e);
+            }
+        }
+
+        // Initialize Load
+        fetchDatabase();
+
+        async function searchResult() {
+            await fetchDatabase();
+            const input = document.getElementById('searchInput').value.trim().toLowerCase();
+            const card = document.getElementById('resultCard');
+
+            if (!input) {
+                alert("Pakilagay ang Roblox Username.");
                 return;
             }
 
-            const foundUser = examineeDatabase.find(user => user.username.toLowerCase() === inputVal || user.id.toLowerCase() === inputVal);
+            const user = databaseData.find(item => item.username.toLowerCase() === input);
 
-            if (foundUser) {
-                emptyState.style.display = 'none';
-                resultSlip.style.display = 'flex';
+            if (user) {
+                document.getElementById('resUsername').innerText = user.username;
+                document.getElementById('resScore').innerText = user.score;
+                
+                const statusElem = document.getElementById('resStatus');
+                statusElem.innerText = user.status;
+                statusElem.className = user.status === 'PASSED' ? 'status-passed' : 'status-failed';
+                
+                document.getElementById('resDate').innerText = user.date || 'N/A';
+                card.style.display = 'block';
+            } else {
+                alert("❌ Walang nahanap na record para sa username na ito.");
+                card.style.display = 'none';
+            }
+        }
 
-                document.getElementById('applicantNo').innerText = foundUser.id;
-                document.getElementById('examineeUser').innerText = foundUser.username;
-                document.getElementById('scoreDisplay').innerText = foundUser.score;
-                document.getElementById('dateIssued').innerText = foundUser.date;
+        // Admin Access Verification via Dynamic Staff Passwords
+        async function openAdminPortal() {
+            const inputPassword = prompt("SMCAT STAFF ADMIN PORTAL ACCESS\n\nEnter your Unique Staff Password:");
 
-                const statusBadge = document.getElementById('statusBadge');
-                statusBadge.innerText = foundUser.status;
-                if (foundUser.status === 'PASSED') {
-                    statusBadge.className = 'badge-status badge-passed';
-                } else {
-                    statusBadge.className = 'badge-status badge-failed';
+            if (inputPassword === null) return;
+
+            const cleanPassword = inputPassword.trim();
+
+            if (!cleanPassword) {
+                alert("⚠️ Pakilagay ang iyong Staff Password.");
+                return;
+            }
+
+            try {
+                // Fetch active passwords from GitHub
+                const res = await fetch(STAFF_ACCESS_URL + '?t=' + new Date().getTime());
+                
+                if (!res.ok) {
+                    alert("🔴 Cannot verify password database at the moment.");
+                    return;
                 }
-            } else {
-                resultSlip.style.display = 'none';
-                emptyState.style.display = 'flex';
-                document.getElementById('statusIcon').innerText = '❌';
-                document.getElementById('statusTitle').innerText = 'Examinee Not Found';
-                document.getElementById('statusDesc').innerText = 'Walang nahanap na record para sa username na ito. Siguraduhing tama ang pagkakainput o makipag-ugnayan sa Office of Admissions.';
+
+                const staffDB = await res.json();
+                
+                let isAuthorized = false;
+                let staffName = "";
+
+                // Match input password against active staff records
+                for (const userKey in staffDB) {
+                    const staffRecord = staffDB[userKey];
+                    if (staffRecord.password === cleanPassword && staffRecord.status === "ACTIVE") {
+                        isAuthorized = true;
+                        staffName = staffRecord.display_name || userKey;
+                        break;
+                    }
+                }
+
+                if (isAuthorized) {
+                    document.getElementById('activeStaffDisplay').innerText = staffName;
+                    await fetchDatabase();
+                    renderAdminData();
+                    document.getElementById('adminModal').style.display = 'flex';
+                } else {
+                    alert("❌ ACCESS DENIED: Mali, Revoked, o Expired na ang Staff Password na ito!");
+                }
+
+            } catch (e) {
+                console.error(e);
+                alert("🔴 Connection Error: Hindi ma-verify ang password sa server.");
             }
         }
 
-        // Admin Portal Modal Logic (Restricted to Authorized Staff Only)
-        function openAdminPortal() {
-            const staffUsername = prompt("STAFF ACCESS ONLY\n\nEnter Authorized Staff Username:");
-
-            if (staffUsername === null) return; // Khina-cancel ng user
-
-            const formattedInput = staffUsername.trim().toLowerCase();
-
-            // Check kung nasa staff list ang input
-            if (authorizedStaff.includes(formattedInput)) {
-                renderAdminData();
-                document.getElementById('adminModal').style.display = 'flex';
-            } else {
-                alert("ACCESS DENIED: Ang username na ito ay walang permiso para sa Admin Portal. Para lamang ito sa mga authorized Staff.");
-            }
-        }
-
-        function closeAdminModal() {
+        function closeAdminPortal() {
             document.getElementById('adminModal').style.display = 'none';
         }
 
@@ -90,35 +323,22 @@
             const tbody = document.getElementById('adminTableBody');
             tbody.innerHTML = '';
 
-            let total = examineeDatabase.length;
-            let passed = 0;
-            let failed = 0;
-
-            examineeDatabase.forEach(user => {
-                if (user.status === 'PASSED') passed++;
-                if (user.status === 'FAILED') failed++;
-
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${user.id}</td>
-                    <td><strong>${user.username}</strong></td>
-                    <td>${user.score}</td>
-                    <td><span style="color: ${user.status === 'PASSED' ? '#4ade80' : '#f87171'}; font-weight: bold;">${user.status}</span></td>
-                    <td>${user.date}</td>
-                `;
-                tbody.appendChild(row);
-            });
-
-            document.getElementById('totalExaminees').innerText = total;
-            document.getElementById('totalPassed').innerText = passed;
-            document.getElementById('totalFailed').innerText = failed;
-        }
-
-        // Close modal when clicking outside box
-        window.onclick = function(event) {
-            const modal = document.getElementById('adminModal');
-            if (event.target === modal) {
-                closeAdminModal();
+            if (databaseData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Walang records sa database.</td></tr>';
+                return;
             }
+
+            databaseData.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${item.username}</strong></td>
+                    <td>${item.score}</td>
+                    <td class="${item.status === 'PASSED' ? 'status-passed' : 'status-failed'}">${item.status}</td>
+                    <td>${item.date || 'N/A'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
         }
     </script>
+</body>
+</html>
