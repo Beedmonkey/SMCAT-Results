@@ -1050,15 +1050,12 @@
         ];
 
         function switchTab(tabId, btnElement) {
-            // Hide all tab contents
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
-            // Remove active status from all tab buttons
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            // Show chosen tab and highlight button
             document.getElementById(tabId).classList.add('active');
             btnElement.classList.add('active');
         }
@@ -1079,7 +1076,6 @@
                 emptyState.style.display = 'none';
                 resultSlip.style.display = 'flex';
 
-                // Populate values
                 document.getElementById('applicantNo').innerText = foundExaminee.id;
                 document.getElementById('examineeUser').innerText = foundExaminee.username;
                 document.getElementById('scoreDisplay').innerText = foundExaminee.score;
@@ -1102,10 +1098,20 @@
         }
 
         function openAdminPortal() {
+            // Prompt user for admin password
+            const passwordInput = prompt("Enter Admin Password to access the portal:");
+            
+            // Set your desired password here (currently set to "admin123")
+            if (passwordInput !== "admin123") {
+                if (passwordInput !== null) {
+                    alert("Incorrect password! Access denied.");
+                }
+                return; 
+            }
+
             const modal = document.getElementById('adminModal');
             modal.style.display = 'flex';
 
-            // Populate stats
             const total = examineesData.length;
             const passed = examineesData.filter(e => e.score >= 80).length;
             const failed = total - passed;
@@ -1114,7 +1120,6 @@
             document.getElementById('totalPassed').innerText = passed;
             document.getElementById('totalFailed').innerText = failed;
 
-            // Populate table rows
             const tbody = document.getElementById('adminTableBody');
             tbody.innerHTML = '';
 
