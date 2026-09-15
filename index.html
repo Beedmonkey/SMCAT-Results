@@ -92,21 +92,22 @@
         }
 
         .brand-logo-container {
-            width: 55px;
-            height: 55px;
+            width: 65px;
+            height: 65px;
             border-radius: 50%;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-            border: 2px solid #063d1e;
-            background: #000;
+            border: 2px solid var(--accent-gold);
+            background: #000000;
         }
 
-        .brand-logo-container svg {
+        .brand-logo-img {
             width: 100%;
             height: 100%;
+            object-fit: contain;
         }
 
         .brand-title h1 {
@@ -635,66 +636,9 @@
     <!-- Main Header -->
     <header>
         <div class="brand">
-            <!-- EMBEDDED SEAL LOGO (Vector Graphic ng Sergeant Major Course Seal) -->
             <div class="brand-logo-container">
-                <svg viewBox="0 0 200 200" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <path id="textArcTop" d="M 30,100 A 70,70 0 0,1 170,100" />
-                        <path id="textArcBottom" d="M 170,100 A 70,70 0 0,1 30,100" />
-                    </defs>
-                    <!-- Outer Dark Border -->
-                    <circle cx="100" cy="100" r="98" fill="#03160b" stroke="#0e3a1f" stroke-width="4"/>
-                    <!-- Outer Green Ring -->
-                    <circle cx="100" cy="100" r="88" fill="#052512" />
-                    <circle cx="100" cy="100" r="72" fill="#d0d7d3" />
-                    
-                    <!-- Upper Arc Text: SERGEANT MAJOR -->
-                    <text font-family="Inter, sans-serif" font-weight="900" font-size="13" fill="#ffffff" letter-spacing="1">
-                        <textPath href="#textArcTop" startOffset="50%" text-anchor="middle">SERGEANT MAJOR</textPath>
-                    </text>
-                    
-                    <!-- Lower Arc Text: COURSE -->
-                    <text font-family="Inter, sans-serif" font-weight="900" font-size="14" fill="#000000" letter-spacing="2">
-                        <textPath href="#textArcBottom" startOffset="50%" text-anchor="middle">COURSE</textPath>
-                    </text>
-                    
-                    <!-- Stars -->
-                    <path d="M 22,100 L 25,93 L 32,93 L 26,88 L 28,81 L 22,85 L 16,81 L 18,88 L 12,93 L 19,93 Z" fill="#ffffff"/>
-                    <path d="M 178,100 L 181,93 L 188,93 L 182,88 L 184,81 L 178,85 L 172,81 L 174,88 L 168,93 L 175,93 Z" fill="#ffffff"/>
-
-                    <!-- Center Inner Circle -->
-                    <circle cx="100" cy="95" r="50" fill="#082d18" stroke="#ffffff" stroke-width="2"/>
-                    
-                    <!-- Sun Rays -->
-                    <g fill="#ffffff" opacity="0.4">
-                        <polygon points="100,50 97,70 103,70"/>
-                        <polygon points="100,140 97,120 103,120"/>
-                        <polygon points="55,95 75,92 75,98"/>
-                        <polygon points="145,95 125,92 125,98"/>
-                    </g>
-                    
-                    <!-- Laurel Wreath -->
-                    <path d="M 65,115 Q 55,90 70,65 Q 85,85 75,115" fill="#228b22"/>
-                    <path d="M 135,115 Q 145,90 130,65 Q 115,85 125,115" fill="#228b22"/>
-
-                    <!-- Torch -->
-                    <path d="M 97,90 L 103,90 L 101,65 L 99,65 Z" fill="#e5e7eb"/>
-                    <path d="M 100,52 Q 107,60 100,66 Q 93,60 100,52 Z" fill="#dc2626"/>
-                    <path d="M 100,55 Q 104,60 100,64 Q 96,60 100,55 Z" fill="#f59e0b"/>
-
-                    <!-- Chevrons Rank -->
-                    <g fill="#d4af37" stroke="#000" stroke-width="1">
-                        <polygon points="100,75 84,87 88,90 100,81 112,90 116,87"/>
-                        <polygon points="100,80 84,92 88,95 100,86 112,95 116,92"/>
-                        <polygon points="100,85 84,97 88,100 100,91 112,100 116,97"/>
-                        <rect x="84" y="102" width="32" height="4" fill="#d4af37"/>
-                        <rect x="84" y="108" width="32" height="4" fill="#d4af37"/>
-                    </g>
-
-                    <!-- Banner: KREDIBILIDAD -->
-                    <rect x="65" y="122" width="70" height="14" fill="#d4af37" rx="2" stroke="#000" stroke-width="1"/>
-                    <text x="100" y="132" font-family="Inter, sans-serif" font-weight="900" font-size="8" fill="#000000" text-anchor="middle" letter-spacing="0.5">KREDIBILIDAD</text>
-                </svg>
+                <!-- Gumagamit ng SMC_2.webp na inupload mo para eksakto at malinaw! -->
+                <img src="SMC_2.webp" alt="Sergeant Major Course Seal" class="brand-logo-img" onerror="this.onerror=null; this.src='SMC.webp';">
             </div>
             <div class="brand-title">
                 <h1>SMCAT-PORTAL</h1>
