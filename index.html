@@ -97,6 +97,7 @@
             font-weight: bold;
         }
 
+        /* MODAL / ADMIN PORTAL */
         .modal {
             display: none;
             position: fixed;
@@ -185,10 +186,11 @@
         </div>
     </div>
 
+    <!-- ADMIN MODAL -->
     <div id="adminModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>🛡️ SMCAT Admin Database (<span id="activeStaffDisplay" style="color:#22c55e;">Staff</span>)</h2>
+                <h2>🛡️ SMCAT Admin Database</h2>
                 <button class="close-btn" onclick="closeAdminPortal()">&times;</button>
             </div>
             <table>
@@ -201,6 +203,7 @@
                     </tr>
                 </thead>
                 <tbody id="adminTableBody">
+                    <!-- Dynamic Data -->
                 </tbody>
             </table>
         </div>
@@ -212,7 +215,7 @@
 
     <script>
         const EXAM_RESULTS_URL = "https://raw.githubusercontent.com/smcat-portal/SMCAT-Results/main/results.json";
-        const STAFF_ACCESS_URL = "https://raw.githubusercontent.com/smcat-portal/SMCAT-Results/main/staff_access.json";
+        const ADMIN_PASSWORD = "SMCAT2026";
 
         let databaseData = [];
 
@@ -258,50 +261,16 @@
         }
 
         async function openAdminPortal() {
-            const inputPassword = prompt("SMCAT STAFF ADMIN PORTAL ACCESS\n\nEnter your Unique Staff Password:");
+            const inputPassword = prompt("SMCAT ADMIN PORTAL ACCESS\n\nEnter Admin Password:");
 
             if (inputPassword === null) return;
 
-            const cleanPassword = inputPassword.trim();
-
-            if (!cleanPassword) {
-                alert("⚠️ Pakilagay ang iyong Staff Password.");
-                return;
-            }
-
-            try {
-                const res = await fetch(STAFF_ACCESS_URL + '?t=' + new Date().getTime());
-                
-                if (!res.ok) {
-                    alert("🔴 Hindi pa makita ang staff_access.json sa GitHub. Gamitin muna ang !accessuser sa Discord.");
-                    return;
-                }
-
-                const staffDB = await res.json();
-                let isAuthorized = false;
-                let staffName = "";
-
-                for (const userKey in staffDB) {
-                    const staffRecord = staffDB[userKey];
-                    if (staffRecord && staffRecord.password === cleanPassword && staffRecord.status === "ACTIVE") {
-                        isAuthorized = true;
-                        staffName = staffRecord.display_name || userKey;
-                        break;
-                    }
-                }
-
-                if (isAuthorized) {
-                    document.getElementById('activeStaffDisplay').innerText = staffName;
-                    await fetchDatabase();
-                    renderAdminData();
-                    document.getElementById('adminModal').style.display = 'flex';
-                } else {
-                    alert("❌ ACCESS DENIED: Mali, Revoked, o Expired na ang Staff Password na ito!");
-                }
-
-            } catch (e) {
-                console.error(e);
-                alert("🔴 Connection Error: Hindi ma-verify ang password sa server.");
+            if (inputPassword.trim() === ADMIN_PASSWORD) {
+                await fetchDatabase();
+                renderAdminData();
+                document.getElementById('adminModal').style.display = 'flex';
+            } else {
+                alert("❌ ACCESS DENIED: Mali ang password.");
             }
         }
 
