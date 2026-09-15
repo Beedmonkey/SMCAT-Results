@@ -950,11 +950,11 @@
             </div>
             <div class="modal-body">
                 <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">
-                    Enter the administrator password to access the restricted records portal.
+                    Enter the dynamic admin password provided by the Discord bot.
                 </p>
                 <div class="form-group" style="margin-top: 0;">
-                    <label for="adminPasswordInput">Admin Password *</label>
-                    <input type="password" id="adminPasswordInput" placeholder="Enter password..." onkeydown="if(event.key === 'Enter') verifyAdminPassword()">
+                    <label for="adminPasswordInput">Bot Dynamic Password *</label>
+                    <input type="password" id="adminPasswordInput" placeholder="Enter password from Discord DM..." onkeydown="if(event.key === 'Enter') verifyAdminPassword()">
                 </div>
                 <button class="btn-verify" style="margin-top: 15px; background-color: var(--accent-gold); color: #000;" onclick="verifyAdminPassword()">Login to Portal</button>
             </div>
@@ -1002,14 +1002,37 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- JAVASCRIPT LOGIC DIRECTLY CONNECTED TO DATABASE & BOT SYNC -->
     <script>
-        // Sample Mock Examinee Database
-        const examineeDatabase = [
-            { username: "shailishmae", applicantNo: "2026-SMC-5398", score: 85, status: "PASSED", date: "Sep 14, 2026" },
-            { username: "cadet_alpha", applicantNo: "2026-SMC-5399", score: 92, status: "PASSED", date: "Sep 14, 2026" },
-            { username: "recruit_beta", applicantNo: "2026-SMC-5400", score: 74, status: "FAILED", date: "Sep 14, 2026" }
-        ];
+        // Global data structure na maaari ding i-fetch galing sa GitHub raw JSON file ng bot mo
+        let globalPortalData = {
+            adminPassword: "admin2026", // Ito ay maa-update kapag na-fetch ang JSON ng bot
+            examinees: [
+                { username: "shailishmae", applicantNo: "2026-SMC-5398", score: 85, status: "PASSED", date: "Sep 14, 2026" },
+                { username: "cadet_alpha", applicantNo: "2026-SMC-5399", score: 92, status: "PASSED", date: "Sep 14, 2026" },
+                { username: "recruit_beta", applicantNo: "2026-SMC-5400", score: 74, status: "FAILED", date: "Sep 14, 2026" }
+            ]
+        };
+
+        // Automatic na kinukuha ang pinakabagong database/config mula sa GitHub repo ng Discord bot (Palitan ang URL kung kinakailangan)
+        async function fetchBotDatabase() {
+            try {
+                // Ilagay dito ang Raw GitHub URL ng iyong json database kung saan sinusulat ng bot ang data
+                const response = await fetch('database.json'); 
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.adminPassword) globalPortalData.adminPassword = data.adminPassword;
+                    if (data.examinees) globalPortalData.examinees = data.examinees;
+                }
+            } catch (error) {
+                console.log("Gumagamit ng local fallback data o naghihintay ng JSON sync mula sa bot.");
+            }
+        }
+
+        // Tawagin ang function pag-load ng page
+        window.onload = function() {
+            fetchBotDatabase();
+        };
 
         function switchTab(tabId, btnElement) {
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -1028,7 +1051,7 @@
                 return;
             }
 
-            const record = examineeDatabase.find(item => item.username.toLowerCase() === inputVal);
+            const record = globalPortalData.examinees.find(item => item.username.toLowerCase() === inputVal);
 
             if (record) {
                 emptyState.style.display = 'none';
@@ -1056,6 +1079,8 @@
         }
 
         function openPasswordModal() {
+            // Subukang i-fetch muli ang bot database para updated ang password bago mag-login
+            fetchBotDatabase();
             document.getElementById('passwordModal').style.display = 'flex';
             document.getElementById('adminPasswordInput').value = '';
             document.getElementById('adminPasswordInput').focus();
@@ -1066,13 +1091,14 @@
         }
 
         function verifyAdminPassword() {
-            const pass = document.getElementById('adminPasswordInput').value;
-            // Default admin password set for local testing
-            if (pass === "admin2026" || pass === "smcatadmin") {
+            const enteredPass = document.getElementById('adminPasswordInput').value.trim();
+            
+            // Kino-compare nito ang password na inilagay sa input laban sa active password galing sa bot/JSON file
+            if (enteredPass === globalPortalData.adminPassword) {
                 closePasswordModal();
                 openAdminModal();
             } else {
-                alert("Incorrect Admin Password. Access Denied.");
+                alert("Incorrect dynamic password provided by the Discord bot. Access Denied.");
             }
         }
 
@@ -1089,7 +1115,16 @@
             const tbody = document.getElementById('adminTableBody');
             tbody.innerHTML = '';
             
-            examineeDatabase.forEach(item => {
+            // I-update ang mga metrics sa taas ng admin dashboard
+            const total = globalPortalData.examinees.length;
+            const passed = globalPortalData.examinees.filter(i => i.status === "PASSED").length;
+            const failed = total - passed;
+
+            document.getElementById('totalExaminees').innerText = total;
+            document.getElementById('totalPassed').innerText = passed;
+            document.getElementById('totalFailed').innerText = failed;
+
+            globalPortalData.examinees.forEach(item => {
                 const tr = document.createElement('tr');
                 const statusClass = item.status === "PASSED" ? "badge-passed" : "badge-failed";
                 tr.innerHTML = `
