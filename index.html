@@ -306,7 +306,7 @@
             border: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* Result Panel */
+        /* Result Panel States */
         .result-empty {
             display: flex;
             flex-direction: column;
@@ -330,14 +330,14 @@
         }
 
         .result-empty h4 {
-            font-size: 1rem;
+            font-size: 1.1rem;
             margin-bottom: 8px;
         }
 
         .result-empty p {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
-            max-width: 320px;
+            max-width: 340px;
             line-height: 1.4;
         }
 
@@ -638,11 +638,11 @@
 
                 <!-- Result Display Panel -->
                 <div class="card">
-                    <!-- Default Empty State -->
+                    <!-- Default / Status Display State -->
                     <div id="emptyState" class="result-empty">
-                        <div class="result-empty-icon">🎖️</div>
-                        <h4>No Examinee Selected</h4>
-                        <p>Enter your registered username in the search box to check your official examination score and admission status.</p>
+                        <div id="statusIcon" class="result-empty-icon">🎖️</div>
+                        <h4 id="statusTitle">No Examinee Selected</h4>
+                        <p id="statusDesc">Enter your registered username in the search box to check your official examination score and admission status.</p>
                         <div style="margin-top: 15px;">
                             <span style="font-size: 0.75rem; color: var(--accent-gold); font-weight: 600;">🛡️ Official Admissions Portal</span>
                         </div>
@@ -779,10 +779,20 @@
             const inputVal = document.getElementById('usernameInput').value.trim().toLowerCase();
             const emptyState = document.getElementById('emptyState');
             const resultSlip = document.getElementById('resultSlip');
+            
+            const statusIcon = document.getElementById('statusIcon');
+            const statusTitle = document.getElementById('statusTitle');
+            const statusDesc = document.getElementById('statusDesc');
 
+            // Reset to default empty state if box is empty
             if (!inputVal) {
                 emptyState.style.display = 'flex';
                 resultSlip.style.display = 'none';
+                statusIcon.innerText = '🎖️';
+                statusIcon.style.color = 'var(--accent-gold)';
+                statusTitle.innerText = 'No Examinee Selected';
+                statusTitle.style.color = '#ffffff';
+                statusDesc.innerText = 'Enter your registered username in the search box to check your official examination score and admission status.';
                 return;
             }
 
@@ -794,6 +804,7 @@
                 const userResult = data.find(item => item.username && item.username.trim().toLowerCase() === inputVal);
 
                 if (userResult) {
+                    // USER FOUND
                     emptyState.style.display = 'none';
                     resultSlip.style.display = 'flex';
 
@@ -805,7 +816,6 @@
                         document.getElementById('dateIssued').innerText = userResult.date.split(' ')[0];
                     }
 
-                    // Fallback to score check if status field is missing
                     const statusText = userResult.status ? userResult.status.toUpperCase() : (Number(userResult.score) >= 80 ? 'PASSED' : 'FAILED');
                     const statusBadge = document.getElementById('statusBadge');
                     statusBadge.innerText = statusText;
@@ -820,13 +830,25 @@
                         statusBadge.style.borderColor = 'rgba(239, 68, 68, 0.4)';
                     }
                 } else {
-                    alert('Username not found in examination records.');
-                    emptyState.style.display = 'flex';
+                    // USER NOT FOUND STATE (Displayed in Card)
                     resultSlip.style.display = 'none';
+                    emptyState.style.display = 'flex';
+                    
+                    statusIcon.innerText = '❌';
+                    statusIcon.style.color = 'var(--fail-color)';
+                    statusTitle.innerText = 'User Not Found';
+                    statusTitle.style.color = '#f87171';
+                    statusDesc.innerHTML = `No examination record found for <strong style="color:#fff;">"${inputVal}"</strong>. Please verify spelling or contact Office of Admissions.`;
                 }
             } catch (err) {
                 console.error('Error fetching results:', err);
-                alert('Could not fetch examination results. Please verify that results.json exists in your root folder.');
+                resultSlip.style.display = 'none';
+                emptyState.style.display = 'flex';
+                statusIcon.innerText = '⚠️';
+                statusIcon.style.color = '#f59e0b';
+                statusTitle.innerText = 'Error Loading Records';
+                statusTitle.style.color = '#f59e0b';
+                statusDesc.innerText = 'Could not retrieve database results. Please verify that results.json exists in your directory.';
             }
         }
     </script>
