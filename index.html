@@ -3,1059 +3,419 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMCAT-PORTAL 2026 Admissions | Official Portal</title>
+    <title>SMC-CEE | Admissions & Training Portal</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-main: #0c0f17;
-            --bg-card: #141a26;
-            --bg-card-secondary: #1a2333;
-            --border-color: #2a364f;
-            --accent-gold: #d4af37;
-            --accent-gold-hover: #f1c40f;
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
-            --navy-button: #1e293b;
-            --dark-banner: #0b1329;
-            --success-color: #22c55e;
-            --fail-color: #ef4444;
+            --primary-color: #0f172a;
+            --accent-color: #2563eb;
+            --accent-hover: #1d4ed8;
+            --success-color: #16a34a;
+            --fail-color: #dc2626;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
         }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
-            background-color: var(--bg-main);
+            background-color: var(--bg-color);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            background-image: radial-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
-        }
-
-        /* Top Bar */
-        .top-bar {
-            background-color: #06080d;
-            border-bottom: 1px solid var(--border-color);
-            padding: 8px 40px;
-            display: flex;
             justify-content: space-between;
-            align-items: center;
-            font-size: 0.75rem;
-            color: var(--text-muted);
         }
 
-        .top-bar-info {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(34, 197, 94, 0.1);
-            color: #4ade80;
-            padding: 2px 8px;
-            border-radius: 4px;
-            border: 1px solid rgba(34, 197, 94, 0.2);
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .dot {
-            width: 6px;
-            height: 6px;
-            background-color: #22c55e;
-            border-radius: 50%;
-        }
-
-        /* Header Navigation */
         header {
-            padding: 20px 40px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.25rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 0.75rem;
         }
 
-        .brand-logo-container {
-            width: 65px;
-            height: 65px;
-            min-width: 65px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-            border: 2px solid var(--accent-gold);
-            background: #08100b;
-        }
-
-        .brand-title h1 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .brand-title p {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .btn-admin {
-            background-color: var(--accent-gold);
-            color: #000000;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: background-color 0.2s ease;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-admin:hover {
-            background-color: var(--accent-gold-hover);
-        }
-
-        /* Hero Announcement */
-        .hero {
-            text-align: center;
-            padding: 40px 20px 20px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .tag-announcement {
-            display: inline-block;
-            background-color: var(--bg-card-secondary);
-            border: 1px solid var(--border-color);
-            color: var(--accent-gold);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 20px;
-            text-transform: uppercase;
+        .brand h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.25rem;
             letter-spacing: 1px;
-            margin-bottom: 15px;
         }
 
-        .hero h2 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-            color: #ffffff;
+        .admin-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .hero h2 span {
-            color: var(--accent-gold);
+        .admin-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
         }
 
-        .hero p {
-            font-size: 1rem;
-            color: var(--text-muted);
-            font-style: italic;
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
         }
 
-        .official-link-box {
-            margin: 20px auto 0;
-            display: inline-block;
-            background: #080b11;
-            border: 1px solid var(--border-color);
-            padding: 10px 24px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            color: var(--accent-gold);
-            font-weight: 600;
-            word-break: break-all;
-        }
-
-        /* Container & Tabs */
         .container {
-            max-width: 1100px;
-            margin: 20px auto 50px;
-            padding: 0 20px;
             width: 100%;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 25px;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .tab-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            padding: 12px 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: border-color 0.2s ease, color 0.2s ease;
-        }
-
-        .tab-btn.active {
-            color: var(--accent-gold);
-            border-bottom-color: var(--accent-gold);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Grid Layout */
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 380px 1fr;
-            gap: 25px;
-            align-items: start;
-        }
-
-        .card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
+            max-width: 600px;
+            background: var(--card-bg);
             border-radius: 12px;
-            padding: 25px;
-        }
-
-        .card-header-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .card-header-title span {
-            color: var(--accent-gold);
-        }
-
-        .card-header-title h3 {
-            font-size: 1.1rem;
-            color: #ffffff;
-        }
-
-        .card-description {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
-
-        .form-group {
-            margin-top: 18px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            font-weight: 700;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            background-color: #0b0f17;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
-            color: #ffffff;
-            font-size: 0.9rem;
-            outline: none;
-            transition: border-color 0.2s ease;
-        }
-
-        .form-group input:focus {
-            border-color: var(--accent-gold);
-        }
-
-        .btn-verify {
-            width: 100%;
-            margin-top: 18px;
-            background-color: var(--navy-button);
-            color: #ffffff;
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s ease, color 0.2s ease;
-        }
-
-        .btn-verify:hover {
-            background-color: var(--border-color);
-            color: var(--accent-gold);
-        }
-
-        .notice-text {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 20px;
-            line-height: 1.4;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        /* Result Panel States */
-        .result-empty {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            min-height: 320px;
-        }
-
-        .result-empty-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--bg-card-secondary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-            color: var(--accent-gold);
-            font-size: 1.2rem;
-        }
-
-        .result-empty h4 {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-        }
-
-        .result-empty p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            max-width: 340px;
-            line-height: 1.4;
-        }
-
-        .official-portal-tag {
-            margin-top: 15px;
-            font-size: 0.75rem;
-            color: var(--accent-gold);
-            font-weight: 600;
-        }
-
-        .result-slip {
-            display: none;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .slip-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .slip-title h2 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .slip-title p {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-top: 2px;
-        }
-
-        .badge-status {
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 12px;
-            letter-spacing: 0.5px;
-            border: 1px solid transparent;
-            text-transform: uppercase;
-            display: inline-block;
-        }
-
-        .badge-passed {
-            background-color: rgba(34, 197, 94, 0.2);
-            color: #4ade80;
-            border-color: rgba(34, 197, 94, 0.4);
-        }
-
-        .badge-failed {
-            background-color: rgba(239, 68, 68, 0.2);
-            color: #f87171;
-            border-color: rgba(239, 68, 68, 0.4);
-        }
-
-        .slip-date {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        .info-grid-box {
-            background-color: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .info-item span {
-            display: block;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-weight: 600;
-            margin-bottom: 3px;
-        }
-
-        .info-item strong {
-            font-size: 0.95rem;
-            color: var(--accent-gold);
-            word-break: break-all;
-        }
-
-        .banner-program {
-            background: linear-gradient(135deg, var(--dark-banner), #162447);
-            border: 1px solid #1f325c;
-            border-radius: 8px;
-            padding: 20px;
-            position: relative;
             overflow: hidden;
         }
 
-        .banner-program span {
-            font-size: 0.7rem;
-            color: var(--accent-gold);
+        .card-header {
+            background: #f1f5f9;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .card-header h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .card-header p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .search-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-group input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-group input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .search-group button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .search-group button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Result Display Area */
+        .result-slip {
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .result-row span:first-child {
+            color: var(--text-muted);
+        }
+
+        .result-row span:last-child {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .badge-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
             font-weight: 700;
-            text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .banner-program h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-top: 4px;
-            color: #ffffff;
-        }
-
-        .banner-program p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .watermark-icon {
-            position: absolute;
-            right: -10px;
-            bottom: -10px;
-            font-size: 5rem;
-            opacity: 0.08;
-            pointer-events: none;
-        }
-
-        .rating-section {
-            border-top: 1px solid var(--border-color);
-            padding-top: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .rating-title {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .rating-eval {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .rating-eval strong {
-            color: #ffffff;
-        }
-
-        /* Guidelines Tab */
-        .guidelines-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .guideline-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 25px;
-        }
-
-        .guideline-icon {
-            width: 40px;
-            height: 40px;
-            background-color: var(--bg-card-secondary);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            color: var(--accent-gold);
-            font-size: 1.1rem;
-        }
-
-        .guideline-card h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #ffffff;
-        }
-
-        .timeline-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .timeline-item h4 {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .timeline-item p {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .check-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .check-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .check-icon {
+        .badge-passed {
+            background-color: #dcfce7;
             color: var(--success-color);
-            font-weight: bold;
         }
 
-        .offered-program-footer {
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 1px dashed var(--border-color);
+        .badge-failed {
+            background-color: #fee2e2;
+            color: var(--fail-color);
         }
 
-        .offered-program-footer span {
-            font-size: 0.7rem;
-            color: var(--accent-gold);
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .offered-program-footer p {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #ffffff;
-            margin-top: 2px;
-        }
-
-        .support-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .support-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.8rem;
+        .empty-state {
+            text-align: center;
             color: var(--text-muted);
+            padding: 1rem 0;
         }
 
-        /* MODAL STYLES (Password & Admin Dashboard) */
+        /* Modals */
         .modal-overlay {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(5px);
-            display: none;
+            background: rgba(15, 23, 42, 0.6);
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            padding: 20px;
+            padding: 1rem;
         }
 
-        .modal-box {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
+        .modal-card {
+            background: white;
             width: 100%;
             max-width: 800px;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
-        /* Specific style for Password Login Modal */
-        .password-modal-box {
+        .modal-card.small {
             max-width: 400px;
         }
 
         .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #0d121c;
         }
 
-        .modal-header h3 {
-            font-size: 1.1rem;
-            color: var(--accent-gold);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-close {
+        .close-modal {
             background: none;
             border: none;
-            color: var(--text-muted);
-            font-size: 1.5rem;
+            color: white;
+            font-size: 1.25rem;
             cursor: pointer;
-            line-height: 1;
-        }
-
-        .btn-close:hover {
-            color: #fff;
         }
 
         .modal-body {
-            padding: 20px;
+            padding: 1.5rem;
+            max-height: 70vh;
             overflow-y: auto;
-        }
-
-        .admin-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: var(--bg-card-secondary);
-            border: 1px solid var(--border-color);
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .stat-card span {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .stat-card strong {
-            display: block;
-            font-size: 1.4rem;
-            margin-top: 4px;
-        }
-
-        /* Table Styling */
-        .table-responsive {
-            overflow-x: auto;
         }
 
         .admin-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.85rem;
+            font-size: 0.875rem;
             text-align: left;
         }
 
-        .admin-table th {
-            background: #0d121c;
-            color: var(--accent-gold);
-            padding: 12px;
+        .admin-table th, .admin-table td {
+            padding: 0.75rem 1rem;
             border-bottom: 1px solid var(--border-color);
-            font-weight: 700;
-            text-transform: uppercase;
+        }
+
+        .admin-table th {
+            background: #f1f5f9;
+            color: var(--primary-color);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card span {
+            display: block;
             font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
         }
 
-        .admin-table td {
-            padding: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            color: var(--text-main);
+        .stat-card strong {
+            font-size: 1.25rem;
+            color: var(--primary-color);
         }
 
-        .admin-table tr:hover {
-            background-color: rgba(255, 255, 255, 0.02);
-        }
-
-        /* MOBILE RESPONSIVE STYLES */
-        @media (max-width: 850px) {
-            .top-bar {
-                flex-direction: column;
-                gap: 6px;
-                text-align: center;
-                padding: 10px 15px;
-            }
-
-            header {
-                flex-direction: column;
-                gap: 15px;
-                padding: 15px;
-                text-align: center;
-            }
-
-            .brand {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .hero h2 {
-                font-size: 1.8rem;
-            }
-
-            .grid-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .guidelines-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .info-grid-box {
-                grid-template-columns: 1fr;
-            }
-
-            .admin-stats {
-                grid-template-columns: 1fr;
-            }
-
-            .container {
-                padding: 0 12px;
-            }
-
-            .card {
-                padding: 18px;
-            }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Status Bar -->
-    <div class="top-bar">
-        <div>
-            OFFICIAL ADMISSIONS PORTAL: <strong>smcat-portal.smc-course.ph</strong>
-        </div>
-        <div class="top-bar-info">
-            <span class="status-badge"><span class="dot"></span> SERVER: ONLINE</span>
-            <span>SMC Course Admissions</span>
-        </div>
-    </div>
-
-    <!-- Main Header -->
+    <!-- Header -->
     <header>
         <div class="brand">
-            <div class="brand-logo-container">
-                <svg width="45" height="45" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="50" cy="50" r="46" fill="#0c1810" stroke="#d4af37" stroke-width="4"/>
-                    <circle cx="50" cy="50" r="40" fill="#08100b" stroke="#1b3820" stroke-width="2"/>
-                    <path d="M50 22 L70 32 V52 C70 65 50 78 50 78 C50 78 30 65 30 52 V32 L50 22 Z" fill="#14331a" stroke="#d4af37" stroke-width="2"/>
-                    <path d="M50 35 C52 40 56 42 54 47 C52 52 48 52 50 56 C46 52 46 45 50 35 Z" fill="#f1c40f"/>
-                    <path d="M40 60 L50 67 L60 60" stroke="#d4af37" stroke-width="3" fill="none" stroke-linecap="round"/>
-                    <path d="M42 65 L50 71 L58 65" stroke="#d4af37" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                    <path d="M22 50 L23.5 53 L27 53.5 L24.5 56 L25 59.5 L22 58 L19 59.5 L19.5 56 L17 53.5 L20.5 53 Z" fill="#ffffff"/>
-                    <path d="M78 50 L79.5 53 L83 53.5 L80.5 56 L81 59.5 L78 58 L75 59.5 L75.5 56 L73 53.5 L76.5 53 Z" fill="#ffffff"/>
-                </svg>
-            </div>
-            <div class="brand-title">
-                <h1>SMCAT-PORTAL</h1>
-                <p>Sergeant Major Course Admissions Test</p>
-            </div>
+            <h1>SMC-CEE PORTAL</h1>
         </div>
-        <button class="btn-admin" onclick="openPasswordModal()">🔒 Admin Portal</button>
+        <button class="admin-btn" onclick="openPasswordModal()">Admin Login</button>
     </header>
 
-    <!-- Hero Announcement Section -->
-    <section class="hero">
-        <span class="tag-announcement">SMCAT 2026 Admissions Official Announcement</span>
-        <h2>The <span>SMCAT</span> results are out!</h2>
-        <p>"Gawa, hindi salita."</p>
-        <div>
-            <div class="official-link-box">
-                🌐 smcat-portal.smc-course.ph
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="card-header">
+                <h2>Examinee Result Lookup</h2>
+                <p>Enter your exact system username to check your status.</p>
             </div>
-        </div>
-    </section>
-
-    <!-- Main Container -->
-    <main class="container">
-        <!-- Navigation Tabs -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('lookupTab', this)">👤 Individual Result Lookup</button>
-            <button class="tab-btn" onclick="switchTab('guidelinesTab', this)">📋 Enrollment Guidelines</button>
-        </div>
-
-        <!-- TAB 1: INDIVIDUAL RESULT LOOKUP -->
-        <div id="lookupTab" class="tab-content active">
-            <div class="grid-layout">
-                <!-- Search Card -->
-                <div class="card">
-                    <div class="card-header-title">
-                        <span>🪪</span>
-                        <h3>Examinee Result Check</h3>
-                    </div>
-                    <p class="card-description">
-                        Enter your registered Username / Examinee ID to view your official SMCAT 2026 grade and admission status.
-                    </p>
-
-                    <div class="form-group">
-                        <label for="usernameInput">USERNAME *</label>
-                        <input type="text" id="usernameInput" placeholder="e.g. shailishmae" onkeydown="if(event.key === 'Enter') verifyResult()">
-                    </div>
-
-                    <button class="btn-verify" onclick="verifyResult()">🔍 Verify Result by Username</button>
-
-                    <div class="notice-text">
-                        <strong>Admissions Notice:</strong><br>
-                        If your username is not listed or you encountered an issue, contact the Office of Admissions via email at <em>admissions@nco-academy.ph</em>.
-                    </div>
+            <div class="card-body">
+                <div class="search-group">
+                    <input type="text" id="usernameInput" placeholder="e.g. shailishmae" autocomplete="off">
+                    <button onclick="verifyResult()">Search</button>
                 </div>
 
-                <!-- Result Display Panel -->
-                <div class="card">
-                    <!-- Default / Status Display State -->
-                    <div id="emptyState" class="result-empty">
-                        <div id="statusIcon" class="result-empty-icon">🎖️</div>
-                        <h4 id="statusTitle">No Examinee Selected</h4>
-                        <p id="statusDesc">Enter your registered username in the search box to check your official examination score and admission status.</p>
-                        <div class="official-portal-tag">
-                            🛡️ Official Admissions Portal
-                        </div>
-                    </div>
-
-                    <!-- Active Result Slip -->
-                    <div id="resultSlip" class="result-slip">
-                        <div class="slip-header">
-                            <div class="slip-title">
-                                <h2>SMC Course - CADETSHIP ADMISSIONS</h2>
-                                <p>SERGEANT MAJOR COURSE ADMISSIONS TEST (SMCAT 2026)</p>
-                            </div>
-                            <div>
-                                <span id="statusBadge" class="badge-status">PASSED</span>
-                                <div class="slip-date">Date Issued: <strong id="dateIssued">Sep 14, 2026</strong></div>
-                            </div>
-                        </div>
-
-                        <div class="info-grid-box">
-                            <div class="info-item">
-                                <span>APPLICANT NUMBER</span>
-                                <strong id="applicantNo">2026-SMC-5398</strong>
-                            </div>
-                            <div class="info-item">
-                                <span>EXAMINEE USERNAME</span>
-                                <strong id="examineeUser">shailishmae</strong>
-                            </div>
-                        </div>
-
-                        <div class="banner-program">
-                            <span>OFFERED CADETSHIP PROGRAM</span>
-                            <h3>Sergeant Major Course (SMC)</h3>
-                            <p>SMC Course - Military & Leadership Command Training</p>
-                            <div class="watermark-icon">🎖️</div>
-                        </div>
-
-                        <div class="rating-section">
-                            <div class="rating-title">OFFICIAL SMCAT ENTRANCE RATING</div>
-                            <div class="rating-eval" id="ratingEval">
-                                SCORE: <strong id="scoreDisplay">0</strong> | BOARD EVALUATION (PASSING: 80)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 2: ENROLLMENT GUIDELINES -->
-        <div id="guidelinesTab" class="tab-content">
-            <div class="guidelines-grid">
-                <!-- Academic Schedule -->
-                <div class="guideline-card">
-                    <div class="guideline-icon">📅</div>
-                    <h3>Academic Schedule</h3>
-                    <ul class="timeline-list">
-                        <li class="timeline-item">
-                            <h4>September 14, 2026</h4>
-                            <p>Official Release of SMCAT 2026 Examination Results</p>
-                        </li>
-                        <li class="timeline-item">
-                            <h4>September 16 – 20, 2026</h4>
-                            <p>Online Slot Confirmation & Document Submission</p>
-                        </li>
-                        <li class="timeline-item">
-                            <h4>September 25, 2026</h4>
-                            <p>Opening of Academic Year Class Training Sessions.</p>
-                        </li>
-                    </ul>
+                <!-- Empty/Initial State -->
+                <div id="emptyState" class="empty-state">
+                    <p id="statusTitle">Awaiting Query</p>
+                    <p id="statusDesc" style="font-size: 0.8rem; margin-top: 0.25rem;">Type your username above to view performance metrics.</p>
                 </div>
 
-                <!-- Enrollment Requirements -->
-                <div class="guideline-card">
-                    <div class="guideline-icon">📂</div>
-                    <h3>Enrollment Requirements</h3>
-                    <ul class="check-list">
-                        <li class="check-item">
-                            <span class="check-icon">✓</span>
-                            <span>Medical Clearance Certificate from Armed Forces Health Unit</span>
-                        </li>
-                        <li class="check-item">
-                            <span class="check-icon">✓</span>
-                            <span>Official Admission Slip (Entrance Exam Result)</span>
-                        </li>
-                        <li class="check-item">
-                            <span class="check-icon">✓</span>
-                            <span>Clearance & Service Record Roblox 2FA/Discord 2FA</span>
-                        </li>
-                    </ul>
-                    <div class="offered-program-footer">
-                        <span>OFFERED PROGRAM</span>
-                        <p>Sergeant Major Course (SMC)</p>
+                <!-- Result Slip Panel -->
+                <div id="resultSlip" class="result-slip">
+                    <div class="result-row">
+                        <span>Applicant Number</span>
+                        <span id="applicantNo">-</span>
                     </div>
-                </div>
-
-                <!-- Admissions Support -->
-                <div class="guideline-card">
-                    <div class="guideline-icon">🎧</div>
-                    <h3>Admissions Support</h3>
-                    <ul class="support-list">
-                        <li class="support-item">
-                            <span>✉️</span>
-                            <span>admissions@nco-academy.ph</span>
-                        </li>
-                        <li class="support-item">
-                            <span>🏛️</span>
-                            <span>Office of Admissions & Registrar</span>
-                        </li>
-                    </ul>
+                    <div class="result-row">
+                        <span>Username</span>
+                        <span id="examineeUser">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span>Examination Score</span>
+                        <span id="scoreDisplay">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span>Evaluation Status</span>
+                        <span><div id="statusBadge" class="badge-status">-</div></span>
+                    </div>
+                    <div class="result-row" style="border-bottom: none;">
+                        <span>Date Evaluated</span>
+                        <span id="dateIssued">-</span>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- CUSTOM PASSWORD LOGIN MODAL -->
+    <!-- Admin Password Verification Modal -->
     <div id="passwordModal" class="modal-overlay">
-        <div class="modal-box password-modal-box">
+        <div class="modal-card small">
             <div class="modal-header">
-                <h3>🔒 Admin Authentication</h3>
-                <button class="btn-close" onclick="closePasswordModal()">&times;</button>
+                <h3>Admin Authentication</h3>
+                <button class="close-modal" onclick="closePasswordModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">
-                    Enter the administrator password to access the restricted records portal.
-                </p>
-                <div class="form-group" style="margin-top: 0;">
-                    <label for="adminPasswordInput">Admin Password *</label>
-                    <input type="password" id="adminPasswordInput" placeholder="Enter password..." onkeydown="if(event.key === 'Enter') verifyAdminPassword()">
+                <div class="search-group" style="margin-bottom: 0;">
+                    <input type="password" id="adminPasswordInput" placeholder="Enter password..." onkeypress="if(event.key === 'Enter') verifyAdminPassword()">
+                    <button onclick="verifyAdminPassword()">Enter</button>
                 </div>
-                <button class="btn-verify" style="margin-top: 15px; background-color: var(--accent-gold); color: #000;" onclick="verifyAdminPassword()">Login to Portal</button>
             </div>
         </div>
     </div>
 
-    <!-- ADMIN DASHBOARD MODAL -->
+    <!-- Admin Control Panel Modal -->
     <div id="adminModal" class="modal-overlay">
-        <div class="modal-box">
+        <div class="modal-card">
             <div class="modal-header">
-                <h3>🛡️ SMCAT Admin Portal - All Examinees List</h3>
-                <button class="btn-close" onclick="closeAdminModal()">&times;</button>
+                <h3>System Management - Examinee Database</h3>
+                <button class="close-modal" onclick="closeAdminModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <!-- Overall Summary -->
-                <div class="admin-stats">
+                <!-- Metrics Overview -->
+                <div class="stats-grid">
                     <div class="stat-card">
                         <span>Total Examinees</span>
-                        <strong id="totalExaminees">0</strong>
+                        <strong id="statTotal">6</strong>
                     </div>
                     <div class="stat-card">
-                        <span>Passed Cadets</span>
-                        <strong id="totalPassed" style="color: #4ade80;">0</strong>
+                        <span>Passed</span>
+                        <strong id="statPassed" style="color: var(--success-color);">5</strong>
                     </div>
                     <div class="stat-card">
-                        <span>Failed Applicants</span>
-                        <strong id="totalFailed" style="color: #f87171;">0</strong>
+                        <span>Failed / Remedial</span>
+                        <strong id="statFailed" style="color: var(--fail-color);">1</strong>
                     </div>
                 </div>
 
-                <!-- Examinees Table -->
+                <!-- Examinees Records Table -->
                 <div class="table-responsive">
                     <table class="admin-table">
                         <thead>
                             <tr>
-                                <th>Applicant ID</th>
+                                <th>Applicant No.</th>
                                 <th>Username</th>
                                 <th>Score</th>
                                 <th>Status</th>
-                                <th>Exam Date</th>
+                                <th>Date Issued</th>
                             </tr>
                         </thead>
                         <tbody id="adminTableBody">
-                            <!-- Dynamically Loaded Rows -->
+                            <!-- Populated dynamically via JS -->
                         </tbody>
                     </table>
                 </div>
@@ -1063,124 +423,113 @@
         </div>
     </div>
 
-    <!-- Application Script Logic -->
+    <!-- Footer -->
+    <footer>
+        &copy; 2026 SMC Admissions & Training Management System. All rights reserved.
+    </footer>
+
+    <!-- JavaScript Logic -->
     <script>
-        // Sample mock database of examinees
-        const examineesData = [
-            { id: "2026-SMC-5398", username: "shailishmae", score: 94, date: "Sep 14, 2026" },
-            { id: "2026-SMC-5401", username: "johndoe", score: 85, date: "Sep 14, 2026" },
-            { id: "2026-SMC-5412", username: "cadet_reyes", score: 78, date: "Sep 14, 2026" },
-            { id: "2026-SMC-5425", username: "elena_v", score: 91, date: "Sep 14, 2026" },
-            { id: "2026-SMC-5430", username: "mark_recruitment", score: 65, date: "Sep 14, 2026" }
+        // Database of Examinee Records
+        const examineeDatabase = [
+            { appNo: "2026-SMC-5398", username: "shailishmae", score: 92, status: "PASSED", date: "Sep 14, 2026" },
+            { appNo: "2026-SMC-5412", username: "johndoe", score: 85, status: "PASSED", date: "Sep 14, 2026" },
+            { appNo: "2026-SMC-5501", username: "cadetsmith", score: 78, status: "FAILED", date: "Sep 14, 2026" },
+            { appNo: "2026-SMC-5620", username: "janedoe", score: 95, status: "PASSED", date: "Sep 14, 2026" },
+            { appNo: "2026-SMC-5711", username: "aegis_command", score: 88, status: "PASSED", date: "Sep 14, 2026" },
+            { appNo: "2026-SMC-5890", username: "recruitment_lead", score: 90, status: "PASSED", date: "Sep 14, 2026" }
         ];
 
-        function switchTab(tabId, btnElement) {
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.getElementById(tabId).classList.add('active');
-            btnElement.classList.add('active');
-        }
-
+        // Verify Individual Result
         function verifyResult() {
             const inputVal = document.getElementById('usernameInput').value.trim().toLowerCase();
             const emptyState = document.getElementById('emptyState');
             const resultSlip = document.getElementById('resultSlip');
 
             if (!inputVal) {
-                alert("Please enter a valid examinee username.");
+                alert("Please enter a valid username.");
                 return;
             }
 
-            const foundExaminee = examineesData.find(e => e.username.toLowerCase() === inputVal);
+            const record = examineeDatabase.find(item => item.username.toLowerCase() === inputVal);
 
-            if (foundExaminee) {
+            if (record) {
                 emptyState.style.display = 'none';
                 resultSlip.style.display = 'flex';
 
-                document.getElementById('applicantNo').innerText = foundExaminee.id;
-                document.getElementById('examineeUser').innerText = foundExaminee.username;
-                document.getElementById('scoreDisplay').innerText = foundExaminee.score;
-                document.getElementById('dateIssued').innerText = foundExaminee.date;
+                // Populate fields
+                document.getElementById('applicantNo').innerText = record.appNo;
+                document.getElementById('examineeUser').innerText = record.username;
+                document.getElementById('scoreDisplay').innerText = record.score;
+                document.getElementById('dateIssued').innerText = record.date;
 
                 const statusBadge = document.getElementById('statusBadge');
-                if (foundExaminee.score >= 80) {
-                    statusBadge.className = 'badge-status badge-passed';
-                    statusBadge.innerText = 'PASSED';
+                if (record.status === "PASSED") {
+                    statusBadge.className = "badge-status badge-passed";
+                    statusBadge.innerText = "PASSED";
                 } else {
-                    statusBadge.className = 'badge-status badge-failed';
-                    statusBadge.innerText = 'FAILED';
+                    statusBadge.className = "badge-status badge-failed";
+                    statusBadge.innerText = "FAILED / REMEDIAL";
                 }
             } else {
-                emptyState.style.display = 'flex';
+                emptyState.style.display = 'block';
                 resultSlip.style.display = 'none';
                 document.getElementById('statusTitle').innerText = "Examinee Not Found";
-                document.getElementById('statusDesc').innerText = `No records match the username "${inputVal}". Please verify your spelling or contact admissions.`;
+                document.getElementById('statusDesc').innerText = `No records match username "${inputVal}". Please verify your spelling or contact admissions.`;
             }
         }
 
-        // 1. Open the custom password login box
+        // Modal Controls
         function openPasswordModal() {
-            document.getElementById('adminPasswordInput').value = ''; // clear previous input
             document.getElementById('passwordModal').style.display = 'flex';
+            document.getElementById('adminPasswordInput').value = '';
             document.getElementById('adminPasswordInput').focus();
         }
 
-        // 2. Close custom password login box
         function closePasswordModal() {
             document.getElementById('passwordModal').style.display = 'none';
         }
 
-        // 3. Verify password entered in custom modal
         function verifyAdminPassword() {
-            const passwordInput = document.getElementById('adminPasswordInput').value;
-            
-            // Palitan mo ang "admin123" ng gusto mong password
-            if (passwordInput === "admin123") {
+            const pass = document.getElementById('adminPasswordInput').value;
+            // Administrator password passcode check
+            if (pass === "admin2026" || pass === "gawahindisalita") {
                 closePasswordModal();
-                openAdminPortal(); // I-bukod ang mismong portal pag tama ang password
+                openAdminModal();
             } else {
-                alert("Incorrect password! Access denied.");
-                document.getElementById('adminPasswordInput').value = '';
-                document.getElementById('adminPasswordInput').focus();
+                alert("Incorrect administrator password.");
             }
         }
 
-        // 4. Open the actual admin dashboard table
-        function openAdminPortal() {
-            const modal = document.getElementById('adminModal');
-            modal.style.display = 'flex';
+        function openAdminModal() {
+            const tableBody = document.getElementById('adminTableBody');
+            tableBody.innerHTML = '';
 
-            const total = examineesData.length;
-            const passed = examineesData.filter(e => e.score >= 80).length;
-            const failed = total - passed;
-
-            document.getElementById('totalExaminees').innerText = total;
-            document.getElementById('totalPassed').innerText = passed;
-            document.getElementById('totalFailed').innerText = failed;
-
-            const tbody = document.getElementById('adminTableBody');
-            tbody.innerHTML = '';
-
-            examineesData.forEach(e => {
-                const tr = document.createElement('tr');
-                const isPassed = e.score >= 80;
-                tr.innerHTML = `
-                    <td><strong>${e.id}</strong></td>
-                    <td>@${e.username}</td>
-                    <td>${e.score}</td>
-                    <td><span class="badge-status ${isPassed ? 'badge-passed' : 'badge-failed'}">${isPassed ? 'Passed' : 'Failed'}</span></td>
-                    <td>${e.date}</td>
+            examineeDatabase.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${item.appNo}</strong></td>
+                    <td>${item.username}</td>
+                    <td>${item.score}</td>
+                    <td><span style="color: ${item.status === 'PASSED' ? 'var(--success-color)' : 'var(--fail-color)'}; font-weight: 700;">${item.status}</span></td>
+                    <td>${item.date}</td>
                 `;
-                tbody.appendChild(tr);
+                tableBody.appendChild(row);
             });
+
+            document.getElementById('adminModal').style.display = 'flex';
         }
 
         function closeAdminModal() {
             document.getElementById('adminModal').style.display = 'none';
+        }
+
+        // Close modals when clicking outside of modal box
+        window.onclick = function(event) {
+            const pwdModal = document.getElementById('passwordModal');
+            const admModal = document.getElementById('adminModal');
+            if (event.target === pwdModal) closePasswordModal();
+            if (event.target === admModal) closeAdminModal();
         }
     </script>
 </body>
