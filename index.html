@@ -1038,89 +1038,52 @@
         </div>
     </div>
 
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Default Backup Data (Gagamitin din pag-load ng JSON)
-        const backupResults = [
-            {
-                "username": "shailishmae",
-                "score": 85,
-                "status": "PASSED",
-                "applicant_id": "2026-SMC-5398",
-                "date": "2026-09-14"
-            }
+        // Sample Database of Examinees
+        const examineeDatabase = [
+            { id: "2026-SMC-5398", username: "shailishmae", score: 92, status: "PASSED", date: "Sep 14, 2026" },
+            { id: "2026-SMC-5399", username: "alex_cadet", score: 85, status: "PASSED", date: "Sep 14, 2026" },
+            { id: "2026-SMC-5400", username: "johndoe", score: 68, status: "FAILED", date: "Sep 14, 2026" }
         ];
 
-        let loadedResults = [...backupResults];
+        // Tab Switcher Logic
+        function switchTab(tabId, element) {
+            const contents = document.querySelectorAll('.tab-content');
+            const tabs = document.querySelectorAll('.tab-btn');
 
-        // Fetch JSON Results kapag nag-load ang page
-        async function loadResultsData() {
-            try {
-                const response = await fetch('./results.json?v=' + new Date().getTime());
-                if (response.ok) {
-                    loadedResults = await response.json();
-                }
-            } catch (e) {
-                console.log("Using backup embedded data standard.");
-            }
-        }
-        loadResultsData();
-
-        function switchTab(tabId, btn) {
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            tabs.forEach(tab => tab.classList.remove('active'));
 
             document.getElementById(tabId).classList.add('active');
-            btn.classList.add('active');
+            element.classList.add('active');
         }
 
-        function generateApplicantId(username) {
-            let hash = 0;
-            for (let i = 0; i < username.length; i++) {
-                hash = username.charCodeAt(i) + ((hash << 5) - hash);
-            }
-            const code = Math.abs(hash % 9000) + 1000;
-            return `2026-SMC-${code}`;
-        }
-
+        // Verify Examinee Result Logic
         function verifyResult() {
             const inputVal = document.getElementById('usernameInput').value.trim().toLowerCase();
             const emptyState = document.getElementById('emptyState');
             const resultSlip = document.getElementById('resultSlip');
-            
-            const statusIcon = document.getElementById('statusIcon');
-            const statusTitle = document.getElementById('statusTitle');
-            const statusDesc = document.getElementById('statusDesc');
 
             if (!inputVal) {
-                emptyState.style.display = 'flex';
-                resultSlip.style.display = 'none';
-                statusIcon.innerText = '🎖️';
-                statusIcon.style.color = 'var(--accent-gold)';
-                statusTitle.innerText = 'No Examinee Selected';
-                statusTitle.style.color = '#ffffff';
-                statusDesc.innerText = 'Enter your registered username in the search box to check your official examination score and admission status.';
+                alert("Pakilagay ang iyong Username.");
                 return;
             }
 
-            const userResult = loadedResults.find(item => item.username && item.username.trim().toLowerCase() === inputVal);
+            const foundUser = examineeDatabase.find(user => user.username.toLowerCase() === inputVal || user.id.toLowerCase() === inputVal);
 
-            if (userResult) {
+            if (foundUser) {
                 emptyState.style.display = 'none';
                 resultSlip.style.display = 'flex';
 
-                document.getElementById('examineeUser').innerText = userResult.username;
-                document.getElementById('scoreDisplay').innerText = userResult.score;
-                document.getElementById('applicantNo').innerText = userResult.applicant_id || generateApplicantId(userResult.username);
+                document.getElementById('applicantNo').innerText = foundUser.id;
+                document.getElementById('examineeUser').innerText = foundUser.username;
+                document.getElementById('scoreDisplay').innerText = foundUser.score;
+                document.getElementById('dateIssued').innerText = foundUser.date;
 
-                if (userResult.date) {
-                    document.getElementById('dateIssued').innerText = userResult.date.split(' ')[0];
-                }
-
-                const statusText = userResult.status ? userResult.status.toUpperCase() : (Number(userResult.score) >= 80 ? 'PASSED' : 'FAILED');
                 const statusBadge = document.getElementById('statusBadge');
-                statusBadge.innerText = statusText;
-
-                if (statusText === 'PASSED') {
+                statusBadge.innerText = foundUser.status;
+                if (foundUser.status === 'PASSED') {
                     statusBadge.className = 'badge-status badge-passed';
                 } else {
                     statusBadge.className = 'badge-status badge-failed';
@@ -1128,24 +1091,20 @@
             } else {
                 resultSlip.style.display = 'none';
                 emptyState.style.display = 'flex';
-                
-                statusIcon.innerText = '❌';
-                statusIcon.style.color = 'var(--fail-color)';
-                statusTitle.innerText = 'User Not Found';
-                statusTitle.style.color = '#f87171';
-                statusDesc.innerHTML = `No examination record found for <strong style="color:#fff;">"${inputVal}"</strong>. Please verify spelling or contact Office of Admissions.`;
+                document.getElementById('statusIcon').innerText = '❌';
+                document.getElementById('statusTitle').innerText = 'Examinee Not Found';
+                document.getElementById('statusDesc').innerText = 'Walang nahanap na record para sa username na ito. Siguraduhing tama ang pagkakainput o makipag-ugnayan sa Office of Admissions.';
             }
         }
 
-        /* --- ADMIN PORTAL FUNCTIONALITY --- */
+        // Admin Portal Modal Logic
         function openAdminPortal() {
-            const password = prompt("🔐 ENTER ADMIN SECURITY PASSCODE:");
-            
-            if (password === "SMCAT2026") { // Dito pwedeng palitan ang password
-                renderAdminList();
+            const password = prompt("ADMIN AUTHENTICATION REQUIRED\n\nEnter Admin Password:");
+            if (password === "admin123") {
+                renderAdminData();
                 document.getElementById('adminModal').style.display = 'flex';
             } else if (password !== null) {
-                alert("❌ ACCESS DENIED: Invalid Passcode.");
+                alert("Incorrect Password!");
             }
         }
 
@@ -1153,41 +1112,39 @@
             document.getElementById('adminModal').style.display = 'none';
         }
 
-        function renderAdminList() {
+        function renderAdminData() {
             const tbody = document.getElementById('adminTableBody');
             tbody.innerHTML = '';
 
-            let passCount = 0;
-            let failCount = 0;
+            let total = examineeDatabase.length;
+            let passed = 0;
+            let failed = 0;
 
-            loadedResults.forEach(item => {
-                const status = item.status ? item.status.toUpperCase() : (Number(item.score) >= 80 ? 'PASSED' : 'FAILED');
-                if (status === 'PASSED') passCount++;
-                else failCount++;
+            examineeDatabase.forEach(user => {
+                if (user.status === 'PASSED') passed++;
+                if (user.status === 'FAILED') failed++;
 
-                const tr = document.createElement('tr');
-                const badgeClass = status === 'PASSED' ? 'badge-passed' : 'badge-failed';
-                
-                tr.innerHTML = `
-                    <td><strong>${item.applicant_id || generateApplicantId(item.username)}</strong></td>
-                    <td>${item.username}</td>
-                    <td><strong>${item.score}</strong></td>
-                    <td><span class="badge-status ${badgeClass}">${status}</span></td>
-                    <td>${item.date ? item.date.split(' ')[0] : '2026-09-14'}</td>
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td><strong>${user.username}</strong></td>
+                    <td>${user.score}</td>
+                    <td><span style="color: ${user.status === 'PASSED' ? '#4ade80' : '#f87171'}; font-weight: bold;">${user.status}</span></td>
+                    <td>${user.date}</td>
                 `;
-                tbody.appendChild(tr);
+                tbody.appendChild(row);
             });
 
-            document.getElementById('totalExaminees').innerText = loadedResults.length;
-            document.getElementById('totalPassed').innerText = passCount;
-            document.getElementById('totalFailed').innerText = failCount;
+            document.getElementById('totalExaminees').innerText = total;
+            document.getElementById('totalPassed').innerText = passed;
+            document.getElementById('totalFailed').innerText = failed;
         }
 
-        // Close modal kapag clinicick sa labas ng box
+        // Close modal when clicking outside box
         window.onclick = function(event) {
             const modal = document.getElementById('adminModal');
             if (event.target === modal) {
-                modal.style.display = 'none';
+                closeAdminModal();
             }
         }
     </script>
