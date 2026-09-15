@@ -38,6 +38,7 @@
             background-size: 30px 30px;
         }
 
+        /* Top Bar */
         .top-bar {
             background-color: #06080d;
             border-bottom: 1px solid var(--border-color);
@@ -75,6 +76,7 @@
             border-radius: 50%;
         }
 
+        /* Header Navigation */
         header {
             padding: 20px 40px;
             display: flex;
@@ -89,12 +91,23 @@
             gap: 15px;
         }
 
-        .brand-logo-img {
+        .brand-logo-container {
             width: 50px;
             height: 50px;
-            object-fit: contain;
             border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+            border: 1px solid var(--border-color);
+            background: #000;
+        }
+
+        .brand-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .brand-title h1 {
@@ -124,6 +137,7 @@
             background-color: var(--accent-gold-hover);
         }
 
+        /* Hero Announcement */
         .hero {
             text-align: center;
             padding: 40px 20px 20px;
@@ -177,6 +191,7 @@
             font-weight: 600;
         }
 
+        /* Container & Tabs */
         .container {
             max-width: 1100px;
             margin: 20px auto 50px;
@@ -216,6 +231,7 @@
             display: block;
         }
 
+        /* Grid Layout */
         .grid-layout {
             display: grid;
             grid-template-columns: 380px 1fr;
@@ -310,6 +326,7 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
+        /* Result Panel States */
         .result-empty {
             display: flex;
             flex-direction: column;
@@ -480,6 +497,7 @@
             color: #ffffff;
         }
 
+        /* Guidelines Tab */
         .guidelines-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -604,6 +622,7 @@
 </head>
 <body>
 
+    <!-- Top Status Bar -->
     <div class="top-bar">
         <div>
             OFFICIAL ADMISSIONS PORTAL: <strong>smcat-portal.smc-course.ph</strong>
@@ -614,10 +633,12 @@
         </div>
     </div>
 
+    <!-- Main Header -->
     <header>
         <div class="brand">
-            <!-- Palitan ang src="SMC_2.webp" ng file name o direct image link mo -->
-            <img src="SMC_2.webp" alt="SMCAT Logo" class="brand-logo-img">
+            <div class="brand-logo-container">
+                <img src="SMC_2.webp" alt="Sergeant Major Course Seal" class="brand-logo-img" onerror="this.onerror=null; this.src='logo.png';">
+            </div>
             <div class="brand-title">
                 <h1>SMCAT-PORTAL</h1>
                 <p>Sergeant Major Course Admissions Test</p>
@@ -626,6 +647,7 @@
         <a href="#" class="btn-admin">Admin Portal</a>
     </header>
 
+    <!-- Banner Announcement Section -->
     <section class="hero">
         <span class="tag-announcement">SMCAT 2026 Admissions Official Announcement</span>
         <h2>The <span>SMCAT</span> results are out!</h2>
@@ -637,14 +659,18 @@
         </div>
     </section>
 
+    <!-- Main Container -->
     <main class="container">
+        <!-- Navigation Tabs -->
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('lookupTab', this)">👤 Individual Result Lookup</button>
             <button class="tab-btn" onclick="switchTab('guidelinesTab', this)">📋 Enrollment Guidelines</button>
         </div>
 
+        <!-- TAB 1: INDIVIDUAL RESULT LOOKUP -->
         <div id="lookupTab" class="tab-content active">
             <div class="grid-layout">
+                <!-- Search Card -->
                 <div class="card">
                     <div class="card-header-title">
                         <span>🪪</span>
@@ -667,7 +693,9 @@
                     </div>
                 </div>
 
+                <!-- Result Display Panel -->
                 <div class="card">
+                    <!-- Default / Status Display State -->
                     <div id="emptyState" class="result-empty">
                         <div id="statusIcon" class="result-empty-icon">🎖️</div>
                         <h4 id="statusTitle">No Examinee Selected</h4>
@@ -677,6 +705,7 @@
                         </div>
                     </div>
 
+                    <!-- Active Result Slip -->
                     <div id="resultSlip" class="result-slip">
                         <div class="slip-header">
                             <div class="slip-title">
@@ -718,8 +747,10 @@
             </div>
         </div>
 
+        <!-- TAB 2: ENROLLMENT GUIDELINES -->
         <div id="guidelinesTab" class="tab-content">
             <div class="guidelines-grid">
+                <!-- Academic Schedule -->
                 <div class="guideline-card">
                     <div class="guideline-icon">📅</div>
                     <h3>Academic Schedule</h3>
@@ -739,6 +770,7 @@
                     </ul>
                 </div>
 
+                <!-- Enrollment Requirements -->
                 <div class="guideline-card">
                     <div class="guideline-icon">📂</div>
                     <h3>Enrollment Requirements</h3>
@@ -762,6 +794,7 @@
                     </div>
                 </div>
 
+                <!-- Admissions Support -->
                 <div class="guideline-card">
                     <div class="guideline-icon">🎧</div>
                     <h3>Admissions Support</h3>
@@ -781,17 +814,6 @@
     </main>
 
     <script>
-        // Dito nakalagay ang mga estudyante para hindi na mag-fetch ng external .json file
-        const examResults = [
-            {
-                "username": "shailishmae",
-                "score": 85,
-                "status": "PASSED",
-                "applicant_id": "2026-SMC-5398",
-                "date": "2026-09-14"
-            }
-        ];
-
         function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -809,7 +831,7 @@
             return `2026-SMC-${code}`;
         }
 
-        function verifyResult() {
+        async function verifyResult() {
             const inputVal = document.getElementById('usernameInput').value.trim().toLowerCase();
             const emptyState = document.getElementById('emptyState');
             const resultSlip = document.getElementById('resultSlip');
@@ -829,42 +851,57 @@
                 return;
             }
 
-            const userResult = examResults.find(item => item.username && item.username.trim().toLowerCase() === inputVal);
+            try {
+                const response = await fetch('./results.json?v=' + new Date().getTime());
+                if (!response.ok) throw new Error("results.json file missing or unreadable");
+                
+                const data = await response.json();
+                const userResult = data.find(item => item.username && item.username.trim().toLowerCase() === inputVal);
 
-            if (userResult) {
-                emptyState.style.display = 'none';
-                resultSlip.style.display = 'flex';
+                if (userResult) {
+                    emptyState.style.display = 'none';
+                    resultSlip.style.display = 'flex';
 
-                document.getElementById('examineeUser').innerText = userResult.username;
-                document.getElementById('scoreDisplay').innerText = userResult.score;
-                document.getElementById('applicantNo').innerText = userResult.applicant_id || generateApplicantId(userResult.username);
+                    document.getElementById('examineeUser').innerText = userResult.username;
+                    document.getElementById('scoreDisplay').innerText = userResult.score;
+                    document.getElementById('applicantNo').innerText = userResult.applicant_id || generateApplicantId(userResult.username);
 
-                if (userResult.date) {
-                    document.getElementById('dateIssued').innerText = userResult.date.split(' ')[0];
-                }
+                    if (userResult.date) {
+                        document.getElementById('dateIssued').innerText = userResult.date.split(' ')[0];
+                    }
 
-                const statusText = userResult.status ? userResult.status.toUpperCase() : (Number(userResult.score) >= 80 ? 'PASSED' : 'FAILED');
-                const statusBadge = document.getElementById('statusBadge');
-                statusBadge.innerText = statusText;
+                    const statusText = userResult.status ? userResult.status.toUpperCase() : (Number(userResult.score) >= 80 ? 'PASSED' : 'FAILED');
+                    const statusBadge = document.getElementById('statusBadge');
+                    statusBadge.innerText = statusText;
 
-                if (statusText === 'PASSED') {
-                    statusBadge.style.backgroundColor = 'rgba(34, 197, 94, 0.2)';
-                    statusBadge.style.color = '#4ade80';
-                    statusBadge.style.borderColor = 'rgba(34, 197, 94, 0.4)';
+                    if (statusText === 'PASSED') {
+                        statusBadge.style.backgroundColor = 'rgba(34, 197, 94, 0.2)';
+                        statusBadge.style.color = '#4ade80';
+                        statusBadge.style.borderColor = 'rgba(34, 197, 94, 0.4)';
+                    } else {
+                        statusBadge.style.backgroundColor = 'rgba(239, 68, 68, 0.2)';
+                        statusBadge.style.color = '#f87171';
+                        statusBadge.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+                    }
                 } else {
-                    statusBadge.style.backgroundColor = 'rgba(239, 68, 68, 0.2)';
-                    statusBadge.style.color = '#f87171';
-                    statusBadge.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+                    resultSlip.style.display = 'none';
+                    emptyState.style.display = 'flex';
+                    
+                    statusIcon.innerText = '❌';
+                    statusIcon.style.color = 'var(--fail-color)';
+                    statusTitle.innerText = 'User Not Found';
+                    statusTitle.style.color = '#f87171';
+                    statusDesc.innerHTML = `No examination record found for <strong style="color:#fff;">"${inputVal}"</strong>. Please verify spelling or contact Office of Admissions.`;
                 }
-            } else {
+            } catch (err) {
+                console.error('Error fetching results:', err);
                 resultSlip.style.display = 'none';
                 emptyState.style.display = 'flex';
-                
-                statusIcon.innerText = '❌';
-                statusIcon.style.color = 'var(--fail-color)';
-                statusTitle.innerText = 'User Not Found';
-                statusTitle.style.color = '#f87171';
-                statusDesc.innerHTML = `No examination record found for <strong style="color:#fff;">"${inputVal}"</strong>. Please verify spelling or contact Office of Admissions.`;
+                statusIcon.innerText = '⚠️';
+                statusIcon.style.color = '#f59e0b';
+                statusTitle.innerText = 'Error Loading Records';
+                statusTitle.style.color = '#f59e0b';
+                statusDesc.innerText = 'Could not retrieve database results. Please verify that results.json exists in your directory.';
             }
         }
     </script>
