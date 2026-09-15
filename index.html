@@ -617,7 +617,7 @@
             color: var(--text-muted);
         }
 
-        /* ADMIN MODAL STYLES */
+        /* MODAL STYLES (Password & Admin Dashboard) */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -644,6 +644,11 @@
             flex-direction: column;
             box-shadow: 0 0 30px rgba(0,0,0,0.8);
             overflow: hidden;
+        }
+
+        /* Specific style for Password Login Modal */
+        .password-modal-box {
+            max-width: 400px;
         }
 
         .modal-header {
@@ -824,7 +829,7 @@
                 <p>Sergeant Major Course Admissions Test</p>
             </div>
         </div>
-        <button class="btn-admin" onclick="openAdminPortal()">🔒 Admin Portal</button>
+        <button class="btn-admin" onclick="openPasswordModal()">🔒 Admin Portal</button>
     </header>
 
     <!-- Hero Announcement Section -->
@@ -993,7 +998,27 @@
         </div>
     </main>
 
-    <!-- ADMIN MODAL DIALOG -->
+    <!-- CUSTOM PASSWORD LOGIN MODAL -->
+    <div id="passwordModal" class="modal-overlay">
+        <div class="modal-box password-modal-box">
+            <div class="modal-header">
+                <h3>🔒 Admin Authentication</h3>
+                <button class="btn-close" onclick="closePasswordModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">
+                    Enter the administrator password to access the restricted records portal.
+                </p>
+                <div class="form-group" style="margin-top: 0;">
+                    <label for="adminPasswordInput">Admin Password *</label>
+                    <input type="password" id="adminPasswordInput" placeholder="Enter password..." onkeydown="if(event.key === 'Enter') verifyAdminPassword()">
+                </div>
+                <button class="btn-verify" style="margin-top: 15px; background-color: var(--accent-gold); color: #000;" onclick="verifyAdminPassword()">Login to Portal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD MODAL -->
     <div id="adminModal" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-header">
@@ -1097,18 +1122,35 @@
             }
         }
 
-        function openAdminPortal() {
-            // Prompt user for admin password
-            const passwordInput = prompt("Enter Admin Password to access the portal:");
-            
-            // Set your desired password here (currently set to "admin123")
-            if (passwordInput !== "admin123") {
-                if (passwordInput !== null) {
-                    alert("Incorrect password! Access denied.");
-                }
-                return; 
-            }
+        // 1. Open the custom password login box
+        function openPasswordModal() {
+            document.getElementById('adminPasswordInput').value = ''; // clear previous input
+            document.getElementById('passwordModal').style.display = 'flex';
+            document.getElementById('adminPasswordInput').focus();
+        }
 
+        // 2. Close custom password login box
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+        }
+
+        // 3. Verify password entered in custom modal
+        function verifyAdminPassword() {
+            const passwordInput = document.getElementById('adminPasswordInput').value;
+            
+            // Palitan mo ang "admin123" ng gusto mong password
+            if (passwordInput === "admin123") {
+                closePasswordModal();
+                openAdminPortal(); // I-bukod ang mismong portal pag tama ang password
+            } else {
+                alert("Incorrect password! Access denied.");
+                document.getElementById('adminPasswordInput').value = '';
+                document.getElementById('adminPasswordInput').focus();
+            }
+        }
+
+        // 4. Open the actual admin dashboard table
+        function openAdminPortal() {
             const modal = document.getElementById('adminModal');
             modal.style.display = 'flex';
 
