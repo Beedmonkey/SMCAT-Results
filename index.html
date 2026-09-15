@@ -624,7 +624,7 @@
                     </p>
 
                     <div class="form-group">
-                        <label>USERNAME *</label>
+                        <label for="usernameInput">USERNAME *</label>
                         <input type="text" id="usernameInput" placeholder="e.g. shailishmae" onkeydown="if(event.key === 'Enter') verifyResult()">
                     </div>
 
@@ -830,7 +830,7 @@
                         statusBadge.style.borderColor = 'rgba(239, 68, 68, 0.4)';
                     }
                 } else {
-                    // USER NOT FOUND STATE (Displayed in Card)
+                    // USER NOT FOUND STATE
                     resultSlip.style.display = 'none';
                     emptyState.style.display = 'flex';
                     
