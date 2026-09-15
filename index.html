@@ -188,7 +188,7 @@
     <div id="adminModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>🛡️ SMCAT Admin Database</h2>
+                <h2>🛡️ SMCAT Admin Database (<span id="activeStaffDisplay" style="color:#22c55e;">Staff</span>)</h2>
                 <button class="close-btn" onclick="closeAdminPortal()">&times;</button>
             </div>
             <table>
@@ -279,16 +279,19 @@
 
                 const staffDB = await res.json();
                 let isAuthorized = false;
+                let staffName = "";
 
                 for (const userKey in staffDB) {
                     const staffRecord = staffDB[userKey];
                     if (staffRecord && staffRecord.password === cleanPassword && staffRecord.status === "ACTIVE") {
                         isAuthorized = true;
+                        staffName = staffRecord.display_name || userKey;
                         break;
                     }
                 }
 
                 if (isAuthorized) {
+                    document.getElementById('activeStaffDisplay').innerText = staffName;
                     await fetchDatabase();
                     renderAdminData();
                     document.getElementById('adminModal').style.display = 'flex';
