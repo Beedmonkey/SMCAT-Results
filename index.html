@@ -625,7 +625,7 @@
 
                     <div class="form-group">
                         <label>USERNAME *</label>
-                        <input type="text" id="usernameInput" placeholder="e.g. shailishmae">
+                        <input type="text" id="usernameInput" placeholder="e.g. shailishmae" onkeydown="if(event.key === 'Enter') verifyResult()">
                     </div>
 
                     <button class="btn-verify" onclick="verifyResult()">🔍 Verify Result by Username</button>
@@ -682,7 +682,7 @@
                         <div class="rating-section">
                             <div class="rating-title">OFFICIAL SMC-CEE ENTRANCE RATING</div>
                             <div class="rating-eval" id="ratingEval">
-                                SCORE: <strong id="scoreDisplay">879</strong> | BOARD EVALUATION (PASSING: 80)
+                                SCORE: <strong id="scoreDisplay">0</strong> | BOARD EVALUATION (PASSING: 80)
                             </div>
                         </div>
                     </div>
@@ -765,6 +765,16 @@
             btn.classList.add('active');
         }
 
+        // Generates a deterministic applicant ID based on username
+        function generateApplicantId(username) {
+            let hash = 0;
+            for (let i = 0; i < username.length; i++) {
+                hash = username.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const code = Math.abs(hash % 9000) + 1000;
+            return `2026-SMC-${code}`;
+        }
+
         async function verifyResult() {
             const inputVal = document.getElementById('usernameInput').value.trim().toLowerCase();
             const emptyState = document.getElementById('emptyState');
@@ -777,30 +787,30 @@
             }
 
             try {
-                // Babasahin nito ang results.json file
                 const response = await fetch('./results.json?v=' + new Date().getTime());
+                if (!response.ok) throw new Error("results.json file missing or unreadable");
+                
                 const data = await response.json();
-
-                // Hahanapin ang username (case-insensitive)
-                const userResult = data.find(item => item.username.toLowerCase() === inputVal);
+                const userResult = data.find(item => item.username && item.username.trim().toLowerCase() === inputVal);
 
                 if (userResult) {
                     emptyState.style.display = 'none';
                     resultSlip.style.display = 'flex';
 
-                    // I-populate ang username at score
                     document.getElementById('examineeUser').innerText = userResult.username;
                     document.getElementById('scoreDisplay').innerText = userResult.score;
+                    document.getElementById('applicantNo').innerText = userResult.applicant_id || generateApplicantId(userResult.username);
 
                     if (userResult.date) {
                         document.getElementById('dateIssued').innerText = userResult.date.split(' ')[0];
                     }
 
-                    // I-update ang Status Badge (PASSED = Green, FAILED = Red)
+                    // Fallback to score check if status field is missing
+                    const statusText = userResult.status ? userResult.status.toUpperCase() : (Number(userResult.score) >= 80 ? 'PASSED' : 'FAILED');
                     const statusBadge = document.getElementById('statusBadge');
-                    statusBadge.innerText = userResult.status.toUpperCase();
+                    statusBadge.innerText = statusText;
 
-                    if (userResult.status.toUpperCase() === 'PASSED') {
+                    if (statusText === 'PASSED') {
                         statusBadge.style.backgroundColor = 'rgba(34, 197, 94, 0.2)';
                         statusBadge.style.color = '#4ade80';
                         statusBadge.style.borderColor = 'rgba(34, 197, 94, 0.4)';
@@ -815,8 +825,8 @@
                     resultSlip.style.display = 'none';
                 }
             } catch (err) {
-                console.error('Error loading results.json:', err);
-                alert('Could not fetch results. Please ensure results.json exists in your repository.');
+                console.error('Error fetching results:', err);
+                alert('Could not fetch examination results. Please verify that results.json exists in your root folder.');
             }
         }
     </script>
