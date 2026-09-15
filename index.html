@@ -48,7 +48,7 @@
             margin-bottom: 25px;
         }
 
-        input[type="text"], input[type="password"] {
+        input[type="text"] {
             flex: 1;
             padding: 12px 16px;
             border-radius: 8px;
@@ -59,7 +59,7 @@
             outline: none;
         }
 
-        input[type="text"]:focus, input[type="password"]:focus {
+        input[type="text"]:focus {
             border-color: #eab308;
         }
 
@@ -97,7 +97,6 @@
             font-weight: bold;
         }
 
-        /* MODAL / ADMIN PORTAL */
         .modal {
             display: none;
             position: fixed;
@@ -186,11 +185,10 @@
         </div>
     </div>
 
-    <!-- ADMIN MODAL -->
     <div id="adminModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>🛡️ SMCAT Admin Database (<span id="activeStaffDisplay" style="color:#22c55e;">Staff</span>)</h2>
+                <h2>🛡️ SMCAT Admin Database</h2>
                 <button class="close-btn" onclick="closeAdminPortal()">&times;</button>
             </div>
             <table>
@@ -203,7 +201,6 @@
                     </tr>
                 </thead>
                 <tbody id="adminTableBody">
-                    <!-- Dynamic Data -->
                 </tbody>
             </table>
         </div>
@@ -214,13 +211,11 @@
     </footer>
 
     <script>
-        // Repositories & Databases Configuration
         const EXAM_RESULTS_URL = "https://raw.githubusercontent.com/smcat-portal/SMCAT-Results/main/results.json";
         const STAFF_ACCESS_URL = "https://raw.githubusercontent.com/smcat-portal/SMCAT-Results/main/staff_access.json";
 
         let databaseData = [];
 
-        // Fetch JSON Exam Data from GitHub
         async function fetchDatabase() {
             try {
                 const res = await fetch(EXAM_RESULTS_URL + '?t=' + new Date().getTime());
@@ -232,7 +227,6 @@
             }
         }
 
-        // Initialize Load
         fetchDatabase();
 
         async function searchResult() {
@@ -245,7 +239,7 @@
                 return;
             }
 
-            const user = databaseData.find(item => item.username.toLowerCase() === input);
+            const user = databaseData.find(item => item.username && item.username.toLowerCase() === input);
 
             if (user) {
                 document.getElementById('resUsername').innerText = user.username;
@@ -263,7 +257,6 @@
             }
         }
 
-        // Admin Access Verification via Dynamic Staff Passwords
         async function openAdminPortal() {
             const inputPassword = prompt("SMCAT STAFF ADMIN PORTAL ACCESS\n\nEnter your Unique Staff Password:");
 
@@ -277,31 +270,25 @@
             }
 
             try {
-                // Fetch active passwords from GitHub
                 const res = await fetch(STAFF_ACCESS_URL + '?t=' + new Date().getTime());
                 
                 if (!res.ok) {
-                    alert("🔴 Cannot verify password database at the moment.");
+                    alert("🔴 Hindi pa makita ang staff_access.json sa GitHub. Gamitin muna ang !accessuser sa Discord.");
                     return;
                 }
 
                 const staffDB = await res.json();
-                
                 let isAuthorized = false;
-                let staffName = "";
 
-                // Match input password against active staff records
                 for (const userKey in staffDB) {
                     const staffRecord = staffDB[userKey];
-                    if (staffRecord.password === cleanPassword && staffRecord.status === "ACTIVE") {
+                    if (staffRecord && staffRecord.password === cleanPassword && staffRecord.status === "ACTIVE") {
                         isAuthorized = true;
-                        staffName = staffRecord.display_name || userKey;
                         break;
                     }
                 }
 
                 if (isAuthorized) {
-                    document.getElementById('activeStaffDisplay').innerText = staffName;
                     await fetchDatabase();
                     renderAdminData();
                     document.getElementById('adminModal').style.display = 'flex';
@@ -323,7 +310,7 @@
             const tbody = document.getElementById('adminTableBody');
             tbody.innerHTML = '';
 
-            if (databaseData.length === 0) {
+            if (!databaseData || databaseData.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Walang records sa database.</td></tr>';
                 return;
             }
@@ -331,9 +318,9 @@
             databaseData.forEach(item => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td><strong>${item.username}</strong></td>
-                    <td>${item.score}</td>
-                    <td class="${item.status === 'PASSED' ? 'status-passed' : 'status-failed'}">${item.status}</td>
+                    <td><strong>${item.username || 'Unknown'}</strong></td>
+                    <td>${item.score || '0'}</td>
+                    <td class="${item.status === 'PASSED' ? 'status-passed' : 'status-failed'}">${item.status || 'N/A'}</td>
                     <td>${item.date || 'N/A'}</td>
                 `;
                 tbody.appendChild(tr);
